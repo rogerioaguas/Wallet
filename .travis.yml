@@ -13,3 +13,17 @@ android:
     - mkdir "$ANDROID_HOME/licenses" || true
     - echo -e "\n8933bad161af4178b1185d1a37fbf41ea5269c55\nd56f5187479451eabf01fb78af6dfcb131a6481e" > "$ANDROID_HOME/licenses/android-sdk-license"
     - echo -e "\n504667f4c0de7af1a06de9f4b1727b84351f2910" > "$ANDROID_HOME/licenses/android-sdk-preview-license"
+
+env:
+  global:
+    - ADB_INSTALL_TIMEOUT=8
+
+before_script:
+  - echo no | android create avd --force -n test -t android-26 --abi x86
+  - emulator -avd test -no-skin -no-audio -no-window &
+  - android-wait-for-emulator
+  - adb shell input keyevent 82 &
+
+script:
+  - android list target
+  - ./gradlew connectedAndroidTest
