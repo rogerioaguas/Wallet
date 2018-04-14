@@ -6,7 +6,7 @@ android:
     - sys-img-x86-google_apis_playstore-26
 
 
-   licenses:
-      - 'android-sdk-preview-license-52d11cd2'
-      - 'android-sdk-license-.+'
-      - 'google-gdk-license-.+'
+  licenses:
+    - 'android-sdk-preview-license-52d11cd2'
+    - 'android-sdk-license-.+'
+    - 'google-gdk-license-.+'
