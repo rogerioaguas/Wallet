@@ -5,6 +5,9 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 
 android {
+    lintOptions {
+        lintConfig file("lint.xml")
+    }
     compileSdkVersion 26
     defaultConfig {
         applicationId "com.example.brunocolombini.wallet"
