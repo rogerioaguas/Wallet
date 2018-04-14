@@ -20,7 +20,7 @@ env:
 
 before_script:
   - echo $ANDROID_HOME
-  - cd $ANDROID_HOME
+  - cd $ANDROID_HOME/tools/bin
   - ls
   - echo no | ./$ANDROID_HOME/bin/avdmanager create avd -n my_device -k "system-images;android-26;google_apis;x86"
   - emulator -avd my_device -no-skin -no-audio -no-window &
