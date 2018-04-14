@@ -8,7 +8,3 @@ android:
     - build-tools-26
     - android-26
     - sys-img-x86-google_apis-26
-
-  before_install:
-    - mkdir -p "$ANDROID_HOME/licenses"
-    - cp ./android-licenses/ "$ANDROID_HOME/licenses/"

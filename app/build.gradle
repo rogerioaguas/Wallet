@@ -9,6 +9,8 @@ android {
         lintConfig file("lint.xml")
     }
     compileSdkVersion 26
+    buildToolsVersion "26.0.2"
+
     defaultConfig {
         applicationId "com.example.brunocolombini.wallet"
         minSdkVersion 15
