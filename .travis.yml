@@ -1,5 +1,6 @@
 language: android
-jdk: oraclejdk7
+jdk:
+  - oraclejdk8
 
 android:
   components:
@@ -9,10 +10,10 @@ android:
     - android-26
     - sys-img-armeabi-v7a-android-26
 
-before_script:
-  - echo no | android create avd --force -n test -t android-26 --abi armeabi-v7a
-  - emulator -avd test -no-skin -no-audio -no-window &
-  - adb wait-for-device
-  - adb shell input keyevent 82 &
+  before_script:
+    - echo no | android create avd --force -n test -t android-26 --abi armeabi-v7a
+    - emulator -avd test -no-skin -no-audio -no-window &
+    - adb wait-for-device
+    - adb shell input keyevent 82 &
 
-script: ./gradlew connectedAndroidTest
+  script: ./gradlew connectedAndroidTest
