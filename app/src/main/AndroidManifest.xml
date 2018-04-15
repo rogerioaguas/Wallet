@@ -2,7 +2,11 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.brunocolombini.wallet">
 
+
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
+        android:name=".WalletApplication"
         android:allowBackup="false"
         android:fullBackupContent="false"
         android:icon="@mipmap/ic_launcher"
