@@ -9,6 +9,3 @@ android:
 
 before_install:
     - yes | sdkmanager "platforms;android-26"
-
-
-script: ./gradlew testDebug
