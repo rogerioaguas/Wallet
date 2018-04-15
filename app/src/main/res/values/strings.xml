@@ -5,4 +5,12 @@
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
     <string name="action_settings">Settings</string>
+    <string name="user">Usuário</string>
+    <string name="password">Senha</string>
+    <string name="sign_in">Entrar</string>
+    <string name="sign_up">Cadastra-se</string>
+    <string name="log_out">Sair</string>
+    <string name="extract">Extrato</string>
+    <string name="user_name_sample">Android Studio</string>
+    <string name="balance_sample">R$ Balance</string>
 </resources>
