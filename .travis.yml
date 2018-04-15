@@ -11,7 +11,4 @@ before_install:
     - yes | sdkmanager "platforms;android-26"
 
 
-script:
-  - ./gradlew lint
-  - ./gradlew testDebug
-  - ./gradlew build
+script: ./gradlew lint testDebug build
