@@ -1,14 +1,12 @@
 language: android
 jdk: oraclejdk8
-sudo: false
-
 android:
   components:
     - platform-tools
     - tools
     - build-tools-26.0.2
     - android-26
-    - sys-img-x86-google_apis-26
+    - sys-img-armeabi-v7a-google_apis-26
 
 before_script:
   - android list targets
