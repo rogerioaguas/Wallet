@@ -16,7 +16,7 @@ Sobre as operações financeiras de criptomoedas, é correto afirmar que:
 
 ## Requisitos Técnicos
 
-* O desafio deve ser feito em Swift, Kotlin, Objective-C ou Java. Kotlin
+* O desafio deve ser feito em Swift, Kotlin, Objective-C ou Java. -> Kotlin
 * Os dados precisam ser armazenados em um banco de dados local.
 
 ## Critérios de Avaliação
