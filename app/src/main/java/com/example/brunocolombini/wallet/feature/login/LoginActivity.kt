@@ -6,7 +6,7 @@ import dagger.android.support.DaggerAppCompatActivity
 import kotlinx.android.synthetic.main.app_bar_main.*
 import javax.inject.Inject
 
-class LoginActivity : DaggerAppCompatActivity(), LoginContract.View {
+open class LoginActivity : DaggerAppCompatActivity(), LoginContract.View {
 
     @Inject
     lateinit var presenter: LoginContract.Presenter
