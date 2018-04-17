@@ -19,3 +19,6 @@ before_script:
     - adb shell input keyevent 82 &
 
 script: ./gradlew clean lint connectedCheck coveralls
+
+after_success:
+  - bash <(curl -s https://codecov.io/bash)
