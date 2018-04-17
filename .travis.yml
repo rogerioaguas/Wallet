@@ -13,9 +13,6 @@ android:
 before_install:
     - yes | sdkmanager "platforms;android-26"
 
-before_script:
-
-
 script:
   - ./gradlew lint build jacocoTestReport assembleAndroidTest
 
