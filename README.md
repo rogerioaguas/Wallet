@@ -36,15 +36,15 @@ O desafio será avaliado através de cinco critérios.
 * O código está de acordo com o guia de estilo da linguagem?
 * O código está bem estruturado?
 * O código está fluente na linguagem?
-* O código faz o uso correto de _Design Patterns_?
+* O código faz o uso correto de _Design Patterns_? -> MVP
 
 ### Documentação
 
 * O código foi entregue com um arquivo de README claro de como se guiar?
-* O código possui comentários pertinentes?
-* O código está em algum controle de versão?
-* Os commits são pequenos e consistentes?
-* As mensagens de commit são claras?
+* O código possui comentários pertinentes? 
+* O código está em algum controle de versão? -> GIT
+* Os commits são pequenos e consistentes? :heavy_check_mark:
+* As mensagens de commit são claras? :heavy_check_mark:
 
 ### Código Limpo
 
@@ -56,7 +56,7 @@ O desafio será avaliado através de cinco critérios.
 
 * O código possui configuração de lint? :heavy_check_mark:
 * O código possui testes unitários?
-* O código possui cobertura de testes?
+* O código possui cobertura de testes? :heavy_check_mark:
 * O código está em Integração Contínua?  :heavy_check_mark:
 
 ## Material de Estudo
