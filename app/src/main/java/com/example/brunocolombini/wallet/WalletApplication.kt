@@ -5,6 +5,7 @@ import com.example.brunocolombini.wallet.di.component.DaggerApplicationComponent
 import dagger.android.AndroidInjector
 import dagger.android.support.DaggerApplication
 
+
 class WalletApplication : DaggerApplication() {
 
 
@@ -16,10 +17,6 @@ class WalletApplication : DaggerApplication() {
         applicationComponent.inject(this)
 
         return applicationComponent
-    }
-
-    override fun onCreate() {
-        super.onCreate()
     }
 
     companion object {
