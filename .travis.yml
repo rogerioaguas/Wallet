@@ -12,4 +12,4 @@ before_install:
     - yes | sdkmanager "platforms;android-26"
 
 
-script: ./gradlew lint testDebug build connectedCheck coveralls
+script: ./gradlew lint testDebug build coveralls
