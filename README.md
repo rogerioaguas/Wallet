@@ -1,4 +1,4 @@
-# Wallet [![Build Status](https://travis-ci.org/bcolombini/Wallet.svg?branch=master)](https://travis-ci.org/bcolombini/Wallet) [![Coverage Status](https://coveralls.io/repos/github/bcolombini/Wallet/badge.svg?branch=master)](https://coveralls.io/github/bcolombini/Wallet?branch=master)
+# Wallet [![Build Status](https://travis-ci.org/bcolombini/Wallet.svg?branch=master)](https://travis-ci.org/bcolombini/Wallet) [![codecov](https://codecov.io/gh/bcolombini/Wallet/branch/master/graph/badge.svg)](https://codecov.io/gh/bcolombini/Wallet)
 
 
 # Desafio Mobile
