@@ -1,10 +1,11 @@
 package com.example.brunocolombini.wallet.feature.login
 
 import android.os.Bundle
-import com.example.brunocolombini.wallet.DAO.user.User
+import com.example.brunocolombini.wallet.DAO.user.UserWallet
 import com.example.brunocolombini.wallet.R
+import com.example.brunocolombini.wallet.feature.create.CreateActivity.Companion.getCallingIntent
 import dagger.android.support.DaggerAppCompatActivity
-import kotlinx.android.synthetic.main.app_bar_main.*
+import kotlinx.android.synthetic.main.activity_login.*
 import javax.inject.Inject
 
 open class LoginActivity : DaggerAppCompatActivity(), LoginContract.View {
@@ -14,15 +15,14 @@ open class LoginActivity : DaggerAppCompatActivity(), LoginContract.View {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
-        setSupportActionBar(toolbar)
+        presenter.onAttachView(this)
+        sign_up.setOnClickListener { startActivity(getCallingIntent(this)) }
     }
 
     override fun callUserNotExist() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun doLogin(user: User?) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    override fun doLogin(user: UserWallet?) {
     }
 
 
