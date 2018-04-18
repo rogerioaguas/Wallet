@@ -6,9 +6,20 @@ android:
     - tools
     - build-tools-26.0.2
     - android-26
+    - android-22
+    - sys-img-armeabi-v7a-android-22
+    - extra-android-m2repository
 
 before_install:
     - yes | sdkmanager "platforms;android-26"
 
+script:
+  - ./gradlew lint build jacocoTestReport assembleAndroidTest
+  - echo no | android create avd --force -n test -t android-22 --abi armeabi-v7a
+  - emulator -avd test -no-skin -no-audio -no-window &
+  - android-wait-for-emulator
+  - adb shell input keyevent 82 &
+  - ./gradlew connectedCheck
 
-script: ./gradlew lint testDebug build
+after_success:
+  - bash <(curl -s https://codecov.io/bash)
