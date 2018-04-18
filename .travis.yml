@@ -9,10 +9,6 @@ android:
     - android-22
     - sys-img-armeabi-v7a-android-22
     - extra-android-m2repository
-
-before_install:
-    - yes | sdkmanager "platforms;android-26"
-
 script:
   - ./gradlew lint build jacocoTestReport assembleAndroidTest
   - echo no | android create avd --force -n test -t android-22 --abi armeabi-v7a
