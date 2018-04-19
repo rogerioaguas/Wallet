@@ -2,7 +2,9 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
-apply plugin: 'jacoco-android'
+apply from: 'jacoco.gradle'
+apply from: 'coveralls.gradle'
+
 
 
 android {
@@ -22,23 +24,37 @@ android {
     }
     buildTypes {
         debug {
-            testCoverageEnabled true
+            testCoverageEnabled = true
         }
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
-    jacocoAndroidUnitTestReport {
-        csv.enabled false
-        html.enabled true
-        xml.enabled true
-    }
+
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
+
+    sourceSets {
+        main.java.srcDirs += 'src/main/kotlin'
+        test.java.srcDirs += 'src/test/kotlin'
+    }
 }
+
+//jacocoAndroidUnitTestReport {
+//    csv.enabled false
+//    html.enabled true
+//    xml.enabled true
+//    excludes +=  [
+//            '**/*_MembersInjector.class',
+//            '**/Dagger*Component.class',
+//            '**/Dagger*Component$Builder.class',
+//            '**/*Module_*Factory.class'
+//    ]
+//}
+
 
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')

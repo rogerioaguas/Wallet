@@ -2,18 +2,17 @@ package com.example.brunocolombini.wallet.feature.create
 
 import com.example.brunocolombini.wallet.DAO.AppDatabase
 import com.example.brunocolombini.wallet.DAO.user.UserDao
-import com.example.brunocolombini.wallet.DAO.user.UserWallet
-import com.example.brunocolombini.wallet.util.HashUtils
-import io.reactivex.Completable
 import io.reactivex.android.plugins.RxAndroidPlugins
-import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.plugins.RxJavaPlugins
 import io.reactivex.schedulers.Schedulers
 import org.junit.Before
 import org.junit.Test
-import org.mockito.*
+import org.mockito.InjectMocks
+import org.mockito.Mock
+import org.mockito.Mockito
 import org.mockito.Mockito.times
 import org.mockito.Mockito.verify
+import org.mockito.MockitoAnnotations
 
 class CreatePresenterTest {
 
