@@ -2,10 +2,7 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
-apply from: 'jacoco.gradle'
-apply from: 'coveralls.gradle'
-
-
+apply plugin: 'jacoco'
 
 android {
     lintOptions {
@@ -39,19 +36,6 @@ android {
 
 }
 
-//jacocoAndroidUnitTestReport {
-//    csv.enabled false
-//    html.enabled true
-//    xml.enabled true
-//    excludes +=  [
-//            '**/*_MembersInjector.class',
-//            '**/Dagger*Component.class',
-//            '**/Dagger*Component$Builder.class',
-//            '**/*Module_*Factory.class'
-//    ]
-//}
-
-
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
@@ -83,5 +67,46 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.1'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
+}
+jacoco {
+    toolVersion = "0.7.6.201602180812"
+}
+
+
+
+task jacocoTestReport(type: JacocoReport, dependsOn: ['testDebugUnitTest', 'createDebugCoverageReport']) {
+
+    reports {
+        xml.enabled = true
+        html.enabled = true
+    }
+
+    def fileFilter = ['**/R.class',
+            '**/*_Impl*',
+            '**/**Module**',
+            '**/DAO**',
+            '**/component**',
+            '**/aplication**',
+            '**/**_Factory**',
+            '**/WalletApplication*',
+                      '**/R$*.class',
+                      '**/BuildConfig.*',
+                      '**/Manifest*.*',
+                      '**/*Test*.*',
+                      'android/**/*.*',
+                      '**/*_MembersInjector.class',
+                      '**/Dagger*Component.class', // covers component implementations
+                      '**/Dagger*Component$Builder.class', // covers component builders
+                      '**/*Module_*Factory.class']
+    def debugTree = fileTree(dir: "${buildDir}/intermediates/classes/debug", excludes: fileFilter)
+    def kotlinDebugTree = fileTree(dir: "${buildDir}/tmp/kotlin-classes/debug", excludes: fileFilter)
+    def mainSrc = "${project.projectDir}/src/androidTest/java"
+
+    sourceDirectories = files([mainSrc])
+    classDirectories = files([debugTree], [kotlinDebugTree])
+
+    executionData = fileTree(dir: "$buildDir", includes: [
+            "jacoco/testDebugUnitTest.exec"
+    ])
 }
 
