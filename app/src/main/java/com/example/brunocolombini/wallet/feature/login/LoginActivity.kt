@@ -5,7 +5,7 @@ import android.support.design.widget.Snackbar
 import com.example.brunocolombini.wallet.DAO.user.UserWallet
 import com.example.brunocolombini.wallet.R
 import com.example.brunocolombini.wallet.feature.create.CreateActivity
-import com.example.brunocolombini.wallet.feature.signin.HomeActivity
+import com.example.brunocolombini.wallet.feature.home.HomeActivity
 import dagger.android.support.DaggerAppCompatActivity
 import kotlinx.android.synthetic.main.activity_login.*
 import javax.inject.Inject

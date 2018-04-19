@@ -25,7 +25,7 @@ O desafio será avaliado através de cinco critérios.
 
 ### Entrega
 
-* O código possui algum controle de dependências?
+* O código possui algum controle de dependências? -> Gradle
 * O resultado final está completo para ser executado?
 * O resultado final atende ao que se propõe fazer?
 * O resultado final atende totalmente aos requisitos propostos?
@@ -41,7 +41,7 @@ O desafio será avaliado através de cinco critérios.
 ### Documentação
 
 * O código foi entregue com um arquivo de README claro de como se guiar?
-* O código possui comentários pertinentes? 
+* O código possui comentários pertinentes?
 * O código está em algum controle de versão? -> GIT
 * Os commits são pequenos e consistentes? :heavy_check_mark:
 * As mensagens de commit são claras? :heavy_check_mark:
@@ -50,12 +50,12 @@ O desafio será avaliado através de cinco critérios.
 
 * O código possibilita expansão para novas funcionalidades? Como seria o caso de acrescentar novas criptomoedas?
 * O código é _Don't Repeat Yourself_?
-* O código é fácil de compreender?
+* O código é fácil de compreender? :heavy_check_mark:
 
 ### Controle de Qualidade
 
 * O código possui configuração de lint? :heavy_check_mark:
-* O código possui testes unitários?
+* O código possui testes unitários? :heavy_check_mark:
 * O código possui cobertura de testes? :heavy_check_mark:
 * O código está em Integração Contínua?  :heavy_check_mark:
 

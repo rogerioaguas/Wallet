@@ -1,4 +1,4 @@
-package com.example.brunocolombini.wallet.feature.signin
+package com.example.brunocolombini.wallet.feature.home
 
 import android.content.Context
 import android.content.Intent
