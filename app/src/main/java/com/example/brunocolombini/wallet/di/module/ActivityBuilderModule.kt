@@ -1,7 +1,7 @@
 package com.example.brunocolombini.wallet.di.module
 
 import br.com.projeto.pets.di.ActivityScoped
-import com.example.brunocolombini.wallet.MainActivity
+import com.example.brunocolombini.wallet.feature.signin.HomeActivity
 import com.example.brunocolombini.wallet.feature.create.CreateActivity
 import com.example.brunocolombini.wallet.feature.create.CreateModule
 import com.example.brunocolombini.wallet.feature.login.LoginActivity
@@ -14,7 +14,7 @@ abstract class ActivityBuilderModule {
 
     @ActivityScoped
     @ContributesAndroidInjector
-    internal abstract fun MainActivity(): MainActivity
+    internal abstract fun MainActivity(): HomeActivity
 
     @ActivityScoped
     @ContributesAndroidInjector(modules = arrayOf(LoginModule::class))

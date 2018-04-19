@@ -1,9 +1,11 @@
 package com.example.brunocolombini.wallet.feature.login
 
 import android.os.Bundle
+import android.support.design.widget.Snackbar
 import com.example.brunocolombini.wallet.DAO.user.UserWallet
 import com.example.brunocolombini.wallet.R
-import com.example.brunocolombini.wallet.feature.create.CreateActivity.Companion.getCallingIntent
+import com.example.brunocolombini.wallet.feature.create.CreateActivity
+import com.example.brunocolombini.wallet.feature.signin.HomeActivity
 import dagger.android.support.DaggerAppCompatActivity
 import kotlinx.android.synthetic.main.activity_login.*
 import javax.inject.Inject
@@ -16,13 +18,18 @@ open class LoginActivity : DaggerAppCompatActivity(), LoginContract.View {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
         presenter.onAttachView(this)
-        sign_up.setOnClickListener { startActivity(getCallingIntent(this)) }
+        sign_up.setOnClickListener { startActivity(CreateActivity.getCallingIntent(this)) }
     }
 
     override fun callUserNotExist() {
+        val errorMessage = "Campo usuario ou senha inválido!"
+        val snackbar = Snackbar.make(login_user, errorMessage, Snackbar.LENGTH_SHORT)
+        snackbar.setAction("Entendi") { snackbar.dismiss() }
+        snackbar.show()
     }
 
     override fun doLogin(user: UserWallet?) {
+        startActivity(HomeActivity.getCallingIntent(this))
     }
 
 
