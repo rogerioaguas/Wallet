@@ -18,6 +18,7 @@ open class LoginActivity : DaggerAppCompatActivity(), LoginContract.View {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
         presenter.onAttachView(this)
+        sign_in.setOnClickListener { presenter.checkUserExist(login_user.text.toString(), login_password.text.toString()) }
         sign_up.setOnClickListener { startActivity(CreateActivity.getCallingIntent(this)) }
     }
 

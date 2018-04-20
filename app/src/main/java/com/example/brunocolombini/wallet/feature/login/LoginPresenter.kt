@@ -30,7 +30,7 @@ open class LoginPresenter @Inject constructor(
                         .findByUser(username, HashUtils.sha1(password))
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
-                        .subscribe({ doActionLogin(it) }, { view.callUserNotExist() })
+                        .subscribe({ doActionLogin(it) }, { t->view.callUserNotExist() })
         )
     }
 
