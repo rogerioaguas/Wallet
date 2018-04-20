@@ -22,7 +22,7 @@ abstract class ActivityBuilderModule {
     internal abstract fun CreateActivity(): CreateActivity
 
     @ActivityScoped
-    @ContributesAndroidInjector(modules = arrayOf(HomeModule::class))
+    @ContributesAndroidInjector(modules = arrayOf(HomeModule::class,FragmentBuilderModule::class))
     internal abstract fun HomeActivity(): HomeActivity
 
 }

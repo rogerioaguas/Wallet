@@ -16,4 +16,14 @@
     <string name="balance_btc">BTC %d</string>
     <string name="balance_britas">BRITAS %d</string>
     <string name="register">Cadastro</string>
+    <string name="bid">Compra</string>
+    <string name="price">Preco</string>
+    <string name="qnt">Quantidade</string>
+    <string name="total">Total</string>
+    <string name="buy">Comprar</string>
+    <string name="ask">Venda</string>
+    <string name="sell">Vender</string>
+
+    <string name="btc">Bitcoin</string>
+    <string name="bts">britas</string>
 </resources>

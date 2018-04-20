@@ -5,6 +5,9 @@ import android.content.Intent
 import android.os.Bundle
 import android.support.design.widget.NavigationView
 import android.support.design.widget.Snackbar
+import android.support.v4.app.Fragment
+import android.support.v4.app.FragmentManager
+import android.support.v4.app.FragmentStatePagerAdapter
 import android.support.v4.view.GravityCompat
 import android.support.v7.app.ActionBarDrawerToggle
 import android.view.MenuItem
@@ -12,6 +15,7 @@ import android.view.View
 import android.widget.TextView
 import com.example.brunocolombini.wallet.DAO.user.UserWallet
 import com.example.brunocolombini.wallet.R
+import com.example.brunocolombini.wallet.feature.exchange.ExchangeFragment
 import com.example.brunocolombini.wallet.util.delivery.BalanceEventType
 import com.example.brunocolombini.wallet.util.delivery.UpdateBalanceEvent
 import dagger.android.support.DaggerAppCompatActivity
@@ -66,6 +70,12 @@ class HomeActivity : DaggerAppCompatActivity(), NavigationView.OnNavigationItemS
         nav_view.setNavigationItemSelectedListener(this)
 
         updateUserInformation(intent.extras.getSerializable(USER_EXTRA) as UserWallet)
+        configPagerAdapter()
+    }
+
+    private fun configPagerAdapter() {
+        pager.adapter = PagerAdapter(this, supportFragmentManager)
+        pagerTitle.setupWithViewPager(pager)
     }
 
     override fun onBackPressed() {
@@ -113,4 +123,34 @@ class HomeActivity : DaggerAppCompatActivity(), NavigationView.OnNavigationItemS
 
         const val USER_EXTRA = "USER"
     }
+}
+
+
+class PagerAdapter(
+        private val context: Context,
+        fragment: FragmentManager
+) : FragmentStatePagerAdapter(fragment) {
+
+
+    override fun getItem(position: Int): Fragment {
+        return when (position) {
+            0 -> ExchangeFragment()
+            else -> ExchangeFragment()
+        }
+    }
+
+    override fun getPageTitle(position: Int): CharSequence {
+        val title = when (position) {
+            0 -> TabType.BTC.type
+            else -> TabType.BRITAS.type
+        }
+        return context.getString(title)
+    }
+
+    override fun getCount() = TabType.values().size
+}
+
+enum class TabType(val type: Int) {
+    BTC(R.string.btc),
+    BRITAS(R.string.bts)
 }
