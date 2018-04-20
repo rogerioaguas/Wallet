@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import com.example.brunocolombini.wallet.DAO.user.UserWallet
 import com.example.brunocolombini.wallet.R
 import com.example.brunocolombini.wallet.feature.home.MarketType
+import com.example.brunocolombini.wallet.util.TextWatcherCryptoInput
 import com.example.brunocolombini.wallet.util.delivery.BalanceEventType
 import com.example.brunocolombini.wallet.util.delivery.UpdateBalanceEvent
 import dagger.android.support.DaggerFragment
@@ -35,6 +36,11 @@ class ExchangeFragment : DaggerFragment(), ExchangeContract.View {
             changeEventDeliverySubject.onNext(UpdateBalanceEvent(BalanceEventType.FIAT, 10.0))
         }
 
+        fragmentView.button_sell.setOnClickListener {
+            changeEventDeliverySubject.onNext(UpdateBalanceEvent(BalanceEventType.FIAT, 10.0))
+        }
+
+
         userInformation = arguments.getSerializable(USER_ARGS) as UserWallet
         marketType = arguments.getSerializable(MARKET_TYPE) as MarketType
 
@@ -50,9 +56,22 @@ class ExchangeFragment : DaggerFragment(), ExchangeContract.View {
                 presenter.getBritasPrice()
             }
         }
-
         return fragmentView
 
+    }
+
+    private fun textInputListeners() {
+
+        val buyQuantity = fragmentView.buy_quantity.editText!!
+        val buyPrice = fragmentView.buy_price.editText!!.text.toString().toDouble()
+        val buyTotal = fragmentView.buy_total.editText!!
+
+        val sellQuantity = fragmentView.sell_quantity.editText!!
+        val sellPrice = fragmentView.sell_price.editText!!.text.toString().toDouble()
+        val sellTotal = fragmentView.sell_total.editText!!
+
+        buyQuantity.addTextChangedListener(TextWatcherCryptoInput(buyQuantity, buyPrice, buyTotal))
+        sellQuantity.addTextChangedListener(TextWatcherCryptoInput(sellQuantity, sellPrice, sellTotal))
     }
 
     override fun updateBalance(balanceType: BalanceEventType, value: Double) {
@@ -73,6 +92,7 @@ class ExchangeFragment : DaggerFragment(), ExchangeContract.View {
         if (market.type == marketType.type) {
             fragmentView.buy_price.editText?.setText(String.format("%.8f", ask))
             fragmentView.sell_price.editText?.setText(String.format("%.8f", bid))
+            textInputListeners()
         }
     }
 
