@@ -32,7 +32,7 @@ class HomeActivity : DaggerAppCompatActivity(), NavigationView.OnNavigationItemS
     @Inject
     lateinit var changeEventDeliverySubject: PublishSubject<UpdateBalanceEvent>
 
-    override fun updateBalance(balanceType: BalanceEventType?, balance: Double) {
+    override fun updateBalance(balanceType: BalanceEventType, balance: Double) {
         when (balanceType) {
             BalanceEventType.FIAT -> {
                 fiat_balance.text = balance.toString()

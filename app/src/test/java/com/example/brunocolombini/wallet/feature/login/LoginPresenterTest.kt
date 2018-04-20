@@ -3,9 +3,11 @@ package com.example.brunocolombini.wallet.feature.login
 import com.example.brunocolombini.wallet.DAO.AppDatabase
 import com.example.brunocolombini.wallet.DAO.user.UserDao
 import com.example.brunocolombini.wallet.DAO.user.UserWallet
-import io.reactivex.*
+import com.nhaarman.mockito_kotlin.eq
+import com.nhaarman.mockito_kotlin.times
+import com.nhaarman.mockito_kotlin.verify
+import io.reactivex.Single
 import io.reactivex.android.plugins.RxAndroidPlugins
-import io.reactivex.observers.TestObserver
 import io.reactivex.plugins.RxJavaPlugins
 import io.reactivex.schedulers.Schedulers
 import org.junit.Before
@@ -13,9 +15,8 @@ import org.junit.Test
 import org.mockito.ArgumentMatchers
 import org.mockito.InjectMocks
 import org.mockito.Mock
-import org.mockito.Mockito.*
+import org.mockito.Mockito.`when`
 import org.mockito.MockitoAnnotations
-import io.reactivex.schedulers.TestScheduler
 
 
 class LoginPresenterTest {
@@ -45,10 +46,12 @@ class LoginPresenterTest {
 
     @Test
     fun user_exist_in_local_database() {
+        val user_expect = UserWallet(1, "ABC", "7C4A8D09CA3762AF61E59520943DC26494F8941B")
+
         `when`(presenter.db.userDao()).thenReturn(userDao)
-        `when`(presenter.db.userDao().findByUser(ArgumentMatchers.anyString(), ArgumentMatchers.anyString())).thenReturn(Single.just(UserWallet(1, "ABC", "123")))
+        `when`(presenter.db.userDao().findByUser(ArgumentMatchers.anyString(), ArgumentMatchers.anyString())).thenReturn(Single.just( UserWallet(1, "ABC", "7C4A8D09CA3762AF61E59520943DC26494F8941B")))
         presenter.checkUserExist("ABC@ABC.com", "123456")
-        verify(view, times(1)).doLogin(ArgumentMatchers.any(UserWallet::class.java))
+        verify(view, times(1)).doLogin(eq(user_expect))
     }
 
     @Test

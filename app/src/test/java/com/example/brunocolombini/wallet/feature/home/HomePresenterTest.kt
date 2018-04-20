@@ -12,6 +12,7 @@ import org.junit.Before
 import org.junit.Test
 import org.mockito.*
 import org.mockito.Mockito.*
+import com.nhaarman.mockito_kotlin.eq
 import java.util.concurrent.TimeUnit
 
 
@@ -42,7 +43,7 @@ class HomePresenterTest {
         `when`(publishSubject.sample(500, TimeUnit.MILLISECONDS)
                 .observeOn(AndroidSchedulers.mainThread())).thenReturn(Observable.just(updateBalance))
         presenter.onAttachView()
-        verify(view, times(1)).updateBalance(ArgumentMatchers.eq(BalanceEventType.FIAT), ArgumentMatchers.eq(10.0))
+        verify(view, times(1)).updateBalance(eq(BalanceEventType.FIAT), eq(10.0))
 
     }
 

@@ -5,7 +5,7 @@ import com.example.brunocolombini.wallet.util.delivery.BalanceEventType
 
 interface HomeContract {
     interface View {
-        fun updateBalance(balanceType: BalanceEventType?, balance: Double)
+        fun updateBalance(balanceType: BalanceEventType, balance: Double)
     }
 
     interface Presenter {
