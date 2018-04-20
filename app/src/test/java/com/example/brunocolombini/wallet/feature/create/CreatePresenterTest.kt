@@ -51,5 +51,4 @@ class CreatePresenterTest {
         verify(view, Mockito.times(1)).errorAlert()
 
     }
-
 }

@@ -8,8 +8,9 @@ import android.arch.persistence.room.PrimaryKey
 data class UserWallet(@PrimaryKey(autoGenerate = true) var id: Long?,
                       @ColumnInfo(name = "username") var username: String,
                       @ColumnInfo(name = "password") var password: String,
-                      @ColumnInfo(name = "balance") var balance: Int = 10000000
-
+                      @ColumnInfo(name = "balance") var fiat_balance: Int = 10000000,
+                      @ColumnInfo(name = "btc_balance") var btc_balance: Int = 0,
+                      @ColumnInfo(name = "britas_balance") var britas_balance: Int = 0
 )
 
 

@@ -3,25 +3,54 @@ package com.example.brunocolombini.wallet.feature.home
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.support.design.widget.Snackbar
 import android.support.design.widget.NavigationView
+import android.support.design.widget.Snackbar
 import android.support.v4.view.GravityCompat
 import android.support.v7.app.ActionBarDrawerToggle
 import android.view.Menu
 import android.view.MenuItem
 import com.example.brunocolombini.wallet.R
+import com.example.brunocolombini.wallet.util.delivery.BalanceEventType
+import com.example.brunocolombini.wallet.util.delivery.UpdateBalanceEvent
 import dagger.android.support.DaggerAppCompatActivity
+import io.reactivex.subjects.PublishSubject
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar_main.*
+import kotlinx.android.synthetic.main.nav_header_main.*
+import java.util.*
+import javax.inject.Inject
 
-class HomeActivity : DaggerAppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
+class HomeActivity : DaggerAppCompatActivity(), NavigationView.OnNavigationItemSelectedListener, HomeContract.View {
+
+
+    @Inject
+    lateinit var presenter: HomeContract.Presenter
+
+    @Inject
+    lateinit var changeEventDeliverySubject: PublishSubject<UpdateBalanceEvent>
+
+    override fun updateBalance(balanceType: BalanceEventType?, balance: Double) {
+        when (balanceType) {
+            BalanceEventType.FIAT -> {
+                fiat_balance.text = balance.toString()
+            }
+            BalanceEventType.BTC -> {
+                btc_balance.text = balance.toString()
+            }
+            BalanceEventType.BRITAS -> {
+                britas_balance.text = balance.toString()
+            }
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
+        presenter.onAttachView()
 
         fab.setOnClickListener { view ->
+            changeEventDeliverySubject.onNext(UpdateBalanceEvent(BalanceEventType.FIAT, Random().nextDouble()))
             Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                     .setAction("Action", null).show()
         }
@@ -62,7 +91,6 @@ class HomeActivity : DaggerAppCompatActivity(), NavigationView.OnNavigationItemS
         // Handle navigation view item clicks here.
         when (item.itemId) {
             R.id.extract -> {
-                // Handle the camera action
             }
             R.id.log_out -> {
 

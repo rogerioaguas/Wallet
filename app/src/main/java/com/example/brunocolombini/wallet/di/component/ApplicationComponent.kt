@@ -4,6 +4,7 @@ import android.app.Application
 import com.example.brunocolombini.wallet.WalletApplication
 import com.example.brunocolombini.wallet.di.module.ActivityBuilderModule
 import com.example.brunocolombini.wallet.di.module.ApplicationModule
+import com.example.brunocolombini.wallet.util.delivery.DeliveryModule
 import dagger.BindsInstance
 import dagger.Component
 import dagger.android.AndroidInjector
@@ -15,6 +16,7 @@ import javax.inject.Singleton
 @Component(modules = arrayOf(
         AndroidSupportInjectionModule::class,
         ApplicationModule::class,
+        DeliveryModule::class,
         ActivityBuilderModule::class))
 interface ApplicationComponent : AndroidInjector<WalletApplication> {
 
