@@ -12,9 +12,9 @@
     <string name="log_out">Sair</string>
     <string name="extract">Extrato</string>
     <string name="user_name_sample">Android Studio</string>
-    <string name="balance_fiat">R$ %d</string>
-    <string name="balance_btc">BTC %d</string>
-    <string name="balance_britas">BRITAS %d</string>
+    <string name="balance_fiat">R$ %.2f</string>
+    <string name="balance_btc">BTC %.8f</string>
+    <string name="balance_britas">BRITAS %.8f</string>
     <string name="register">Cadastro</string>
     <string name="bid">Compra</string>
     <string name="price">Preco</string>

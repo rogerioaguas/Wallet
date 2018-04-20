@@ -10,6 +10,7 @@ import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentStatePagerAdapter
 import android.support.v4.view.GravityCompat
 import android.support.v7.app.ActionBarDrawerToggle
+import android.util.Log
 import android.view.MenuItem
 import android.view.View
 import android.widget.TextView
@@ -23,7 +24,6 @@ import io.reactivex.subjects.PublishSubject
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar_main.*
 import kotlinx.android.synthetic.main.nav_header_main.*
-import org.w3c.dom.Text
 import java.util.*
 import javax.inject.Inject
 
@@ -36,19 +36,30 @@ class HomeActivity : DaggerAppCompatActivity(), NavigationView.OnNavigationItemS
     @Inject
     lateinit var changeEventDeliverySubject: PublishSubject<UpdateBalanceEvent>
 
+    lateinit var user: UserWallet
+
+
     override fun updateBalance(balanceType: BalanceEventType, balance: Double) {
+        val navView: NavigationView = findViewById(R.id.nav_view)
+        val header: View = navView.getHeaderView(0)
+
+        val fiatBalanceTextView: TextView = header.findViewById(R.id.fiat_balance)
+        val btcBalanceTextView: TextView = header.findViewById(R.id.btc_balance)
+        val britasBalanceTextView: TextView = header.findViewById(R.id.britas_balance)
+
         when (balanceType) {
             BalanceEventType.FIAT -> {
-                fiat_balance.text = balance.toString()
+                fiatBalanceTextView.text = String.format(resources.getString(R.string.balance_fiat), balance)
             }
             BalanceEventType.BTC -> {
-                btc_balance.text = balance.toString()
+                btcBalanceTextView.text = String.format(resources.getString(R.string.balance_btc), balance)
             }
             BalanceEventType.BRITAS -> {
-                britas_balance.text = balance.toString()
+                britasBalanceTextView.text = String.format(resources.getString(R.string.balance_britas), balance)
             }
         }
     }
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -69,12 +80,13 @@ class HomeActivity : DaggerAppCompatActivity(), NavigationView.OnNavigationItemS
 
         nav_view.setNavigationItemSelectedListener(this)
 
-        updateUserInformation(intent.extras.getSerializable(USER_EXTRA) as UserWallet)
+        user = intent.extras.getSerializable(USER_EXTRA) as UserWallet
+        updateUserInformation(user)
         configPagerAdapter()
     }
 
     private fun configPagerAdapter() {
-        pager.adapter = PagerAdapter(this, supportFragmentManager)
+        pager.adapter = PagerAdapter(this, user, supportFragmentManager)
         pagerTitle.setupWithViewPager(pager)
     }
 
@@ -128,29 +140,30 @@ class HomeActivity : DaggerAppCompatActivity(), NavigationView.OnNavigationItemS
 
 class PagerAdapter(
         private val context: Context,
+        private val user: UserWallet,
         fragment: FragmentManager
 ) : FragmentStatePagerAdapter(fragment) {
 
 
     override fun getItem(position: Int): Fragment {
         return when (position) {
-            0 -> ExchangeFragment()
-            else -> ExchangeFragment()
+            0 -> ExchangeFragment.newInstance(type = ExchangeTabType.BTC, user = user)
+            else -> ExchangeFragment.newInstance(type = ExchangeTabType.BRITAS, user = user)
         }
     }
 
     override fun getPageTitle(position: Int): CharSequence {
         val title = when (position) {
-            0 -> TabType.BTC.type
-            else -> TabType.BRITAS.type
+            0 -> ExchangeTabType.BTC.type
+            else -> ExchangeTabType.BRITAS.type
         }
         return context.getString(title)
     }
 
-    override fun getCount() = TabType.values().size
+    override fun getCount() = ExchangeTabType.values().size
 }
 
-enum class TabType(val type: Int) {
+enum class ExchangeTabType(val type: Int) {
     BTC(R.string.btc),
     BRITAS(R.string.bts)
 }
