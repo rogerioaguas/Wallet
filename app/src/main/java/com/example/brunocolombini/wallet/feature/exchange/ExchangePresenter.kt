@@ -3,6 +3,7 @@ package com.example.brunocolombini.wallet.feature.exchange
 import android.util.Log
 import com.example.brunocolombini.wallet.data.Api
 import com.example.brunocolombini.wallet.data.BancoCentralModel
+import com.example.brunocolombini.wallet.data.MercadoBitcoinModel
 import com.example.brunocolombini.wallet.util.delivery.BalanceEventType
 import com.example.brunocolombini.wallet.util.delivery.UpdateBalanceEvent
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -30,11 +31,19 @@ class ExchangePresenter @Inject constructor(
                 }))
     }
 
-    override fun setBritasPrice() {
+    override fun getBritasPrice() {
         api.getBritasPrice()
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe { t1: BancoCentralModel ->
-                    this.view.setCryptoPrice(BalanceEventType.BRITAS, t1.value[0].cotacaoCompra, t1.value[0].cotacaoVenda)
+                .subscribe { ticker: BancoCentralModel ->
+                    this.view.setCryptoPrice(BalanceEventType.BRITAS, ticker.value[0].cotacaoCompra, ticker.value[0].cotacaoVenda)
+                }
+    }
+
+    override fun getBtcPrice() {
+        api.getBtcPrice("https://www.mercadobitcoin.net/api/BTC/ticker/")
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe { ticker: MercadoBitcoinModel ->
+                    this.view.setCryptoPrice(BalanceEventType.BTC, ticker.ticker.buy.toDouble(), ticker.ticker.sell.toDouble())
                 }
     }
 

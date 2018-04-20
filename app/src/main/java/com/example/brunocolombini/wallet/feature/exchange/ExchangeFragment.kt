@@ -43,9 +43,11 @@ class ExchangeFragment : DaggerFragment(), ExchangeContract.View {
         when (marketType) {
             MarketType.BTC -> {
                 updateBalance(BalanceEventType.BTC, userInformation.btc_balance)
+                presenter.getBtcPrice()
             }
             MarketType.BRITAS -> {
                 updateBalance(BalanceEventType.BRITAS, userInformation.britas_balance)
+                presenter.getBritasPrice()
             }
         }
 
@@ -69,7 +71,8 @@ class ExchangeFragment : DaggerFragment(), ExchangeContract.View {
 
     override fun setCryptoPrice(market: BalanceEventType, bid: Double, ask: Double) {
         if (market.type == marketType.type) {
-
+            fragmentView.buy_price.editText?.setText(String.format("%.8f", ask))
+            fragmentView.sell_price.editText?.setText(String.format("%.8f", bid))
         }
     }
 

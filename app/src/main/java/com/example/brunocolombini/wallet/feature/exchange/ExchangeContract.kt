@@ -11,6 +11,7 @@ interface ExchangeContract {
 
     interface Presenter {
         fun onAttachView(view: ExchangeContract.View)
-        fun setBritasPrice()
+        fun getBritasPrice()
+        fun getBtcPrice()
     }
 }
