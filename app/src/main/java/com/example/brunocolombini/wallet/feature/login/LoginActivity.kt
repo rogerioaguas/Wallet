@@ -29,8 +29,8 @@ open class LoginActivity : DaggerAppCompatActivity(), LoginContract.View {
         snackbar.show()
     }
 
-    override fun doLogin(user: UserWallet?) {
-        startActivity(HomeActivity.getCallingIntent(this))
+    override fun doLogin(user: UserWallet) {
+        startActivity(HomeActivity.getCallingIntent(this, user = user))
     }
 
 

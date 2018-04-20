@@ -1,16 +1,12 @@
 package com.example.brunocolombini.wallet.feature.login
 
 import android.content.Context
-import android.util.Log
 import com.example.brunocolombini.wallet.DAO.AppDatabase
 import com.example.brunocolombini.wallet.DAO.user.UserWallet
 import com.example.brunocolombini.wallet.util.HashUtils
-import io.reactivex.Completable
-import io.reactivex.Scheduler
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
-import org.reactivestreams.Subscription
 import javax.inject.Inject
 
 
@@ -30,7 +26,7 @@ open class LoginPresenter @Inject constructor(
                         .findByUser(username, HashUtils.sha1(password))
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
-                        .subscribe({ doActionLogin(it) }, { t->view.callUserNotExist() })
+                        .subscribe({ doActionLogin(it) }, { view.callUserNotExist() })
         )
     }
 

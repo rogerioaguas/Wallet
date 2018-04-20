@@ -6,7 +6,7 @@ import com.example.brunocolombini.wallet.DAO.user.UserWallet
 interface LoginContract {
     interface View {
         fun callUserNotExist()
-        fun doLogin(user: UserWallet?)
+        fun doLogin(user: UserWallet)
     }
 
     interface Presenter {

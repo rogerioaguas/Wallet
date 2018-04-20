@@ -12,6 +12,8 @@
     <string name="log_out">Sair</string>
     <string name="extract">Extrato</string>
     <string name="user_name_sample">Android Studio</string>
-    <string name="balance_sample">R$ Balance</string>
+    <string name="balance_fiat">R$ %d</string>
+    <string name="balance_btc">BTC %d</string>
+    <string name="balance_britas">BRITAS %d</string>
     <string name="register">Cadastro</string>
 </resources>

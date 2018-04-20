@@ -7,8 +7,10 @@ import android.support.design.widget.NavigationView
 import android.support.design.widget.Snackbar
 import android.support.v4.view.GravityCompat
 import android.support.v7.app.ActionBarDrawerToggle
-import android.view.Menu
 import android.view.MenuItem
+import android.view.View
+import android.widget.TextView
+import com.example.brunocolombini.wallet.DAO.user.UserWallet
 import com.example.brunocolombini.wallet.R
 import com.example.brunocolombini.wallet.util.delivery.BalanceEventType
 import com.example.brunocolombini.wallet.util.delivery.UpdateBalanceEvent
@@ -17,6 +19,7 @@ import io.reactivex.subjects.PublishSubject
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar_main.*
 import kotlinx.android.synthetic.main.nav_header_main.*
+import org.w3c.dom.Text
 import java.util.*
 import javax.inject.Inject
 
@@ -61,6 +64,8 @@ class HomeActivity : DaggerAppCompatActivity(), NavigationView.OnNavigationItemS
         toggle.syncState()
 
         nav_view.setNavigationItemSelectedListener(this)
+
+        updateUserInformation(intent.extras.getSerializable(USER_EXTRA) as UserWallet)
     }
 
     override fun onBackPressed() {
@@ -71,29 +76,12 @@ class HomeActivity : DaggerAppCompatActivity(), NavigationView.OnNavigationItemS
         }
     }
 
-    override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        menuInflater.inflate(R.menu.main, menu)
-        return true
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        when (item.itemId) {
-            R.id.action_settings -> return true
-            else -> return super.onOptionsItemSelected(item)
-        }
-    }
-
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
-        // Handle navigation view item clicks here.
         when (item.itemId) {
             R.id.extract -> {
             }
             R.id.log_out -> {
-
+                finish()
             }
         }
 
@@ -101,7 +89,28 @@ class HomeActivity : DaggerAppCompatActivity(), NavigationView.OnNavigationItemS
         return true
     }
 
+    private fun updateUserInformation(user: UserWallet) {
+        val navView: NavigationView = findViewById(R.id.nav_view)
+        val header: View = navView.getHeaderView(0)
+
+        val userNameTextView: TextView = header.findViewById(R.id.user_name)
+        val fiatBalanceTextView: TextView = header.findViewById(R.id.fiat_balance)
+        val btcBalanceTextView: TextView = header.findViewById(R.id.btc_balance)
+        val britasBalanceTextView: TextView = header.findViewById(R.id.britas_balance)
+
+        userNameTextView.text = user.username
+        fiatBalanceTextView.text = (fiatBalanceTextView.text as String).replace("%d", user.fiat_balance.toString())
+        btcBalanceTextView.text = (btcBalanceTextView.text as String).replace("%d", user.btc_balance.toString())
+        britasBalanceTextView.text = (britasBalanceTextView.text as String).replace("%d", user.britas_balance.toString())
+    }
+
     companion object {
-        fun getCallingIntent(context: Context) = Intent(context, HomeActivity::class.java)
+        fun getCallingIntent(context: Context, user: UserWallet): Intent {
+            val intent = Intent(context, HomeActivity::class.java)
+            intent.putExtra(USER_EXTRA, user)
+            return intent
+        }
+
+        const val USER_EXTRA = "USER"
     }
 }
