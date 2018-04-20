@@ -10,7 +10,6 @@ import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentStatePagerAdapter
 import android.support.v4.view.GravityCompat
 import android.support.v7.app.ActionBarDrawerToggle
-import android.util.Log
 import android.view.MenuItem
 import android.view.View
 import android.widget.TextView
@@ -23,7 +22,6 @@ import dagger.android.support.DaggerAppCompatActivity
 import io.reactivex.subjects.PublishSubject
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar_main.*
-import kotlinx.android.synthetic.main.nav_header_main.*
 import java.util.*
 import javax.inject.Inject
 
@@ -121,9 +119,9 @@ class HomeActivity : DaggerAppCompatActivity(), NavigationView.OnNavigationItemS
         val britasBalanceTextView: TextView = header.findViewById(R.id.britas_balance)
 
         userNameTextView.text = user.username
-        fiatBalanceTextView.text = (fiatBalanceTextView.text as String).replace("%d", user.fiat_balance.toString())
-        btcBalanceTextView.text = (btcBalanceTextView.text as String).replace("%d", user.btc_balance.toString())
-        britasBalanceTextView.text = (britasBalanceTextView.text as String).replace("%d", user.britas_balance.toString())
+        fiatBalanceTextView.text = String.format(resources.getString(R.string.balance_fiat), user.fiat_balance)
+        btcBalanceTextView.text = String.format(resources.getString(R.string.balance_btc), user.btc_balance)
+        britasBalanceTextView.text = String.format(resources.getString(R.string.balance_britas), user.britas_balance)
     }
 
     companion object {
@@ -147,23 +145,23 @@ class PagerAdapter(
 
     override fun getItem(position: Int): Fragment {
         return when (position) {
-            0 -> ExchangeFragment.newInstance(type = ExchangeTabType.BTC, user = user)
-            else -> ExchangeFragment.newInstance(type = ExchangeTabType.BRITAS, user = user)
+            0 -> ExchangeFragment.newInstance(type = MarketType.BTC, user = user)
+            else -> ExchangeFragment.newInstance(type = MarketType.BRITAS, user = user)
         }
     }
 
     override fun getPageTitle(position: Int): CharSequence {
         val title = when (position) {
-            0 -> ExchangeTabType.BTC.type
-            else -> ExchangeTabType.BRITAS.type
+            0 -> MarketType.BTC.type
+            else -> MarketType.BRITAS.type
         }
         return context.getString(title)
     }
 
-    override fun getCount() = ExchangeTabType.values().size
+    override fun getCount() = MarketType.values().size
 }
 
-enum class ExchangeTabType(val type: Int) {
+enum class MarketType(val type: Int) {
     BTC(R.string.btc),
     BRITAS(R.string.bts)
 }

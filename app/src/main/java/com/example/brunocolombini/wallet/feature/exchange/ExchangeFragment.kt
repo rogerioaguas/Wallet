@@ -6,7 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import com.example.brunocolombini.wallet.DAO.user.UserWallet
 import com.example.brunocolombini.wallet.R
-import com.example.brunocolombini.wallet.feature.home.ExchangeTabType
+import com.example.brunocolombini.wallet.feature.home.MarketType
 import com.example.brunocolombini.wallet.util.delivery.BalanceEventType
 import com.example.brunocolombini.wallet.util.delivery.UpdateBalanceEvent
 import dagger.android.support.DaggerFragment
@@ -24,11 +24,29 @@ class ExchangeFragment : DaggerFragment(), ExchangeContract.View {
 
     private lateinit var fragmentView: View
 
+    lateinit var userInformation: UserWallet
+
+    lateinit var marketType: MarketType
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         fragmentView = inflater.inflate(R.layout.fragment_exchange, container, false)
         presenter.onAttachView(this)
         fragmentView.button_buy.setOnClickListener {
-            changeEventDeliverySubject.onNext(UpdateBalanceEvent(BalanceEventType.FIAT,10.0))
+            changeEventDeliverySubject.onNext(UpdateBalanceEvent(BalanceEventType.FIAT, 10.0))
+        }
+
+        userInformation = arguments.getSerializable(USER_ARGS) as UserWallet
+        marketType = arguments.getSerializable(MARKET_TYPE) as MarketType
+
+        updateBalance(BalanceEventType.FIAT, userInformation.fiat_balance)
+
+        when (marketType) {
+            MarketType.BTC -> {
+                updateBalance(BalanceEventType.BTC, userInformation.btc_balance)
+            }
+            MarketType.BRITAS -> {
+                updateBalance(BalanceEventType.BRITAS, userInformation.britas_balance)
+            }
         }
 
         return fragmentView
@@ -49,16 +67,22 @@ class ExchangeFragment : DaggerFragment(), ExchangeContract.View {
         }
     }
 
+    override fun setCryptoPrice(market: BalanceEventType, bid: Double, ask: Double) {
+        if (market.type == marketType.type) {
+
+        }
+    }
+
 
     companion object {
-        private const val TYPE_ARGS = "TYPE"
+        private const val MARKET_TYPE = "MARKET_TYPE"
         private const val USER_ARGS = "USER_ARGS"
 
-        fun newInstance(type: ExchangeTabType, user: UserWallet? = null): ExchangeFragment {
+        fun newInstance(type: MarketType, user: UserWallet): ExchangeFragment {
             val fragment = ExchangeFragment()
 
             fragment.arguments = Bundle().apply {
-                putSerializable(TYPE_ARGS, type)
+                putSerializable(MARKET_TYPE, type)
                 putSerializable(USER_ARGS, user)
             }
 

@@ -25,5 +25,6 @@
     <string name="sell">Vender</string>
 
     <string name="btc">Bitcoin</string>
+    <string name="fiat">Fiat</string>
     <string name="bts">britas</string>
 </resources>
