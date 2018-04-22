@@ -37,7 +37,7 @@ class HomePresenterTest {
     lateinit var userPreference: UserPreference
 
     @Mock
-    lateinit var context: Context
+    lateinit var ctx: Context
 
     @Before
     fun setUp() {
@@ -52,9 +52,10 @@ class HomePresenterTest {
     @Test
     fun on_balance_is_updated_success() {
         val updateBalance = UpdateBalanceEvent(BalanceEventType.FIAT, 10.0)
+        `when`(view.getContext()).thenReturn(ctx)
         `when`(publishSubject.sample(500, TimeUnit.MILLISECONDS)
                 .observeOn(AndroidSchedulers.mainThread())).thenReturn(Observable.just(updateBalance))
-        presenter.onAttachView(context)
+        presenter.onAttachView()
         verify(view, times(1)).updateBalance(eq(BalanceEventType.FIAT), eq(10.0))
 
     }

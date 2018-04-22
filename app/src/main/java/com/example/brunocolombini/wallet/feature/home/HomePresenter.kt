@@ -20,10 +20,9 @@ class HomePresenter @Inject constructor(
 
     private val compositeDisposable = CompositeDisposable()
     lateinit var db: AppDatabase
-    lateinit var context: Context
 
-    override fun onAttachView(context: Context) {
-        db = AppDatabase.getInstance(context)!!
+    override fun onAttachView() {
+        db = AppDatabase.getInstance(view.getContext())!!
         compositeDisposable.add(changeEventDeliverySubject
                 .sample(500, TimeUnit.MILLISECONDS)
                 .observeOn(AndroidSchedulers.mainThread())

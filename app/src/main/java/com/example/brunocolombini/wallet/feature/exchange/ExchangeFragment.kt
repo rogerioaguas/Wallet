@@ -33,7 +33,6 @@ class ExchangeFragment : DaggerFragment(), ExchangeContract.View {
         fragmentView = inflater.inflate(R.layout.fragment_exchange, container, false)
         presenter.onAttachView(this)
 
-
         fragmentView.button_buy.setOnClickListener {
             changeEventDeliverySubject.onNext(UpdateBalanceEvent(BalanceEventType.FIAT, 10.0))
         }
@@ -46,21 +45,15 @@ class ExchangeFragment : DaggerFragment(), ExchangeContract.View {
         userInformation = arguments.getSerializable(USER_ARGS) as UserWallet
         marketType = arguments.getSerializable(MARKET_TYPE) as MarketType
 
-//        updateBalance(BalanceEventType.FIAT, userInformation.fiat_balance)
-
+        presenter.updateBalance()
         when (marketType) {
-            MarketType.BTC -> {
-//                updateBalance(BalanceEventType.BTC, userInformation.btc_balance)
-                presenter.getBtcPrice()
-            }
-            MarketType.BRITAS -> {
-//                updateBalance(BalanceEventType.BRITAS, userInformation.britas_balance)
-                presenter.getBritasPrice()
-            }
+            MarketType.BTC -> presenter.getBtcPrice()
+            MarketType.BRITAS -> presenter.getBritasPrice()
         }
         return fragmentView
 
     }
+
 
     private fun textInputListeners() {
 

@@ -9,10 +9,11 @@ interface HomeContract {
     interface View {
         fun updateBalance(balanceType: BalanceEventType, balance: Double)
         fun updateUserInformation(extracts: List<Extract>)
+        fun getContext(): Context
     }
 
     interface Presenter {
-        fun onAttachView(context: Context)
+        fun onAttachView()
         fun onDestroy()
         fun updateUserInformation()
     }

@@ -52,12 +52,13 @@ class HomeActivity : DaggerAppCompatActivity(), NavigationView.OnNavigationItemS
         }
     }
 
+    override fun getContext(): Context = this
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
-        presenter.onAttachView(this)
+        presenter.onAttachView()
         presenter.updateUserInformation()
 
         val toggle = ActionBarDrawerToggle(

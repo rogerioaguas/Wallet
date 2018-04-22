@@ -1,5 +1,6 @@
 package com.example.brunocolombini.wallet.feature.exchange
 
+import com.example.brunocolombini.wallet.DAO.infra.UserPreference
 import com.example.brunocolombini.wallet.data.Api
 import com.example.brunocolombini.wallet.util.delivery.UpdateBalanceEvent
 import dagger.Module
@@ -21,8 +22,8 @@ class ExchangeModule {
     fun provideExchangeFragment(fragment: ExchangeFragment): ExchangeFragment = fragment
 
     @Provides
-    fun provideExchangePresenter(changeEventDeliverySubject: PublishSubject<UpdateBalanceEvent>, api: Api): ExchangeContract.Presenter {
-        return ExchangePresenter(changeEventDeliverySubject, api)
+    fun provideExchangePresenter(changeEventDeliverySubject: PublishSubject<UpdateBalanceEvent>, api: Api, userPreference: UserPreference): ExchangeContract.Presenter {
+        return ExchangePresenter(changeEventDeliverySubject, api, userPreference)
     }
 
 }
