@@ -1,18 +1,14 @@
 package com.example.brunocolombini.wallet.feature.home
 
 import android.content.Context
-import android.util.Log
 import com.example.brunocolombini.wallet.DAO.AppDatabase
 import com.example.brunocolombini.wallet.DAO.infra.UserPreference
 import com.example.brunocolombini.wallet.DAO.user.Extract
-import com.example.brunocolombini.wallet.DAO.user.UserDao
-import com.example.brunocolombini.wallet.R
 import com.example.brunocolombini.wallet.util.delivery.UpdateBalanceEvent
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 import io.reactivex.subjects.PublishSubject
-import kotlinx.android.synthetic.main.nav_header_main.view.*
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 

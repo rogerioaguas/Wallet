@@ -1,5 +1,8 @@
 package com.example.brunocolombini.wallet.feature.home
 
+import android.content.Context
+import com.example.brunocolombini.wallet.DAO.AppDatabase
+import com.example.brunocolombini.wallet.DAO.infra.UserPreference
 import com.example.brunocolombini.wallet.util.delivery.BalanceEventType
 import com.example.brunocolombini.wallet.util.delivery.UpdateBalanceEvent
 import io.reactivex.Observable
@@ -27,9 +30,19 @@ class HomePresenterTest {
     @Mock
     lateinit var view: HomeContract.View
 
+    @Mock
+    lateinit var appDataBase: AppDatabase
+
+    @Mock
+    lateinit var userPreference: UserPreference
+
+    @Mock
+    lateinit var context: Context
+
     @Before
     fun setUp() {
         MockitoAnnotations.initMocks(this)
+        presenter.db = appDataBase
         RxJavaPlugins.setIoSchedulerHandler { Schedulers.trampoline() }
         RxJavaPlugins.setComputationSchedulerHandler { Schedulers.trampoline() }
         RxJavaPlugins.setNewThreadSchedulerHandler { Schedulers.trampoline() }
@@ -39,10 +52,9 @@ class HomePresenterTest {
     @Test
     fun on_balance_is_updated_success() {
         val updateBalance = UpdateBalanceEvent(BalanceEventType.FIAT, 10.0)
-
         `when`(publishSubject.sample(500, TimeUnit.MILLISECONDS)
                 .observeOn(AndroidSchedulers.mainThread())).thenReturn(Observable.just(updateBalance))
-        presenter.onAttachView()
+        presenter.onAttachView(context)
         verify(view, times(1)).updateBalance(eq(BalanceEventType.FIAT), eq(10.0))
 
     }
