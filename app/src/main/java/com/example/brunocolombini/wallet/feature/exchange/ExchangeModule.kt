@@ -5,6 +5,7 @@ import com.example.brunocolombini.wallet.data.Api
 import com.example.brunocolombini.wallet.util.delivery.UpdateBalanceEvent
 import dagger.Module
 import dagger.Provides
+import io.reactivex.subjects.BehaviorSubject
 import io.reactivex.subjects.PublishSubject
 import retrofit2.Retrofit
 import javax.inject.Singleton

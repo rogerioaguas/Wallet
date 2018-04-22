@@ -16,5 +16,6 @@ interface ExchangeContract {
         fun getBritasPrice()
         fun getBtcPrice()
         fun updateBalance()
+        fun updateExtract(amount: Double, eventType: String, exchangeEvent: ExchangeEvent)
     }
 }

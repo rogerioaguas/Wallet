@@ -8,7 +8,9 @@ import com.example.brunocolombini.wallet.util.delivery.UpdateBalanceEvent
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
+import io.reactivex.subjects.BehaviorSubject
 import io.reactivex.subjects.PublishSubject
+import io.reactivex.subjects.ReplaySubject
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
@@ -24,7 +26,6 @@ class HomePresenter @Inject constructor(
     override fun onAttachView() {
         db = AppDatabase.getInstance(view.getContext())!!
         compositeDisposable.add(changeEventDeliverySubject
-                .sample(500, TimeUnit.MILLISECONDS)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({ t: UpdateBalanceEvent ->
                     view.updateBalance(t.eventType, t.value)

@@ -13,8 +13,5 @@ class DeliveryModule {
     @Singleton
     fun providesUpdateBalanceEvent(): PublishSubject<UpdateBalanceEvent> = PublishSubject.create()
 
-    companion object {
-        const val BALANCE_UPDATE = "BALANCE_UPDATE"
-    }
 
 }

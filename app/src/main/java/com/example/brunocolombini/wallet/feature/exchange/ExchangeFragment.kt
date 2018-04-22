@@ -11,8 +11,12 @@ import com.example.brunocolombini.wallet.util.TextWatcherCryptoInput
 import com.example.brunocolombini.wallet.util.delivery.BalanceEventType
 import com.example.brunocolombini.wallet.util.delivery.UpdateBalanceEvent
 import dagger.android.support.DaggerFragment
+import io.reactivex.subjects.BehaviorSubject
 import io.reactivex.subjects.PublishSubject
+import io.reactivex.subjects.ReplaySubject
+import kotlinx.android.synthetic.main.fragment_exchange.*
 import kotlinx.android.synthetic.main.fragment_exchange.view.*
+import org.intellij.lang.annotations.JdkConstants
 import javax.inject.Inject
 
 class ExchangeFragment : DaggerFragment(), ExchangeContract.View {
@@ -33,17 +37,26 @@ class ExchangeFragment : DaggerFragment(), ExchangeContract.View {
         fragmentView = inflater.inflate(R.layout.fragment_exchange, container, false)
         presenter.onAttachView(this)
 
-        fragmentView.button_buy.setOnClickListener {
-            changeEventDeliverySubject.onNext(UpdateBalanceEvent(BalanceEventType.FIAT, 10.0))
-        }
-
-        fragmentView.button_sell.setOnClickListener {
-            changeEventDeliverySubject.onNext(UpdateBalanceEvent(BalanceEventType.FIAT, 10.0))
-        }
 
 
         userInformation = arguments.getSerializable(USER_ARGS) as UserWallet
         marketType = arguments.getSerializable(MARKET_TYPE) as MarketType
+
+        fragmentView.button_buy.setOnClickListener {
+            val newBalanceFiat = fiat_balance.text.toString().replace("R$", "").toDouble() - buy_total.editText!!.text.toString().toDouble()
+            val newBalanceCrypto = crypto_balance.text.toString().replace("BTC", "").toDouble() + buy_quantity.editText!!.text.toString().toDouble()
+            changeEventDeliverySubject.onNext(UpdateBalanceEvent(BalanceEventType.BTC, newBalanceCrypto))
+            changeEventDeliverySubject.onNext(UpdateBalanceEvent(BalanceEventType.FIAT, newBalanceFiat))
+//            presenter.updateExtract(buy_total.editText!!.text.toString().toDouble(), resources.getString(BalanceEventType.FIAT.type), ExchangeEvent.SELL)
+        }
+
+        fragmentView.button_sell.setOnClickListener {
+            val newBalanceFiat = fiat_balance.text.toString().replace("R$", "").toDouble() + buy_total.editText!!.text.toString().toDouble()
+            val newBalanceCrypto = crypto_balance.text.toString().replace("BTC", "").toDouble() - buy_quantity.editText!!.text.toString().toDouble()
+            changeEventDeliverySubject.onNext(UpdateBalanceEvent(BalanceEventType.BTC, newBalanceCrypto))
+            changeEventDeliverySubject.onNext(UpdateBalanceEvent(BalanceEventType.FIAT, newBalanceFiat))
+//            presenter.updateExtract(sell_total.editText!!.text.toString().toDouble(), resources.getString(BalanceEventType.FIAT.type), ExchangeEvent.BUY)
+        }
 
         presenter.updateBalance()
         when (marketType) {
@@ -51,7 +64,6 @@ class ExchangeFragment : DaggerFragment(), ExchangeContract.View {
             MarketType.BRITAS -> presenter.getBritasPrice()
         }
         return fragmentView
-
     }
 
 
@@ -75,10 +87,14 @@ class ExchangeFragment : DaggerFragment(), ExchangeContract.View {
                 fragmentView.fiat_balance.text = String.format(resources.getString(R.string.balance_fiat), value)
             }
             BalanceEventType.BTC -> {
-                fragmentView.crypto_balance.text = String.format(resources.getString(R.string.balance_btc), value)
+                if (marketType == MarketType.BTC) {
+                    fragmentView.crypto_balance.text = String.format(resources.getString(R.string.balance_btc), value)
+                }
             }
             BalanceEventType.BRITAS -> {
-                fragmentView.crypto_balance.text = String.format(resources.getString(R.string.balance_britas), value)
+                if (marketType == MarketType.BRITAS) {
+                    fragmentView.crypto_balance.text = String.format(resources.getString(R.string.balance_britas), value)
+                }
             }
         }
     }

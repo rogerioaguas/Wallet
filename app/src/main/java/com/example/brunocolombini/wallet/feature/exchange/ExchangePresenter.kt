@@ -1,6 +1,5 @@
 package com.example.brunocolombini.wallet.feature.exchange
 
-import android.util.Log
 import com.example.brunocolombini.wallet.DAO.AppDatabase
 import com.example.brunocolombini.wallet.DAO.infra.UserPreference
 import com.example.brunocolombini.wallet.DAO.user.Extract
@@ -12,7 +11,9 @@ import com.example.brunocolombini.wallet.util.delivery.UpdateBalanceEvent
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
+import io.reactivex.subjects.BehaviorSubject
 import io.reactivex.subjects.PublishSubject
+import java.util.*
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
@@ -31,7 +32,6 @@ class ExchangePresenter @Inject constructor(
         this.view = view
         db = AppDatabase.getInstance(view.getContext())!!
         compositeDisposable.add(changeEventDeliverySubject
-                .sample(500, TimeUnit.MILLISECONDS)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({ t: UpdateBalanceEvent ->
                     view.updateBalance(t.eventType, t.value)
@@ -61,7 +61,7 @@ class ExchangePresenter @Inject constructor(
                 .subscribeOn(Schedulers.io())
                 .subscribe({ t: List<Extract> ->
                     updateBalanceView(t)
-                },{t-> Log.e("EXCHANGE",t.message)})
+                })
 
     }
 
@@ -80,4 +80,19 @@ class ExchangePresenter @Inject constructor(
             }
         }
     }
+
+
+    override fun updateExtract(amount: Double, eventType: String, exchangeEvent: ExchangeEvent) {
+        val extract = if (exchangeEvent == ExchangeEvent.BUY) {
+            Extract(null, userPreference.getUserId(), amount * 1, eventType, Date().toString())
+        } else {
+            Extract(null, userPreference.getUserId(), amount * -1, eventType, Date().toString())
+        }
+        db.extractDao().insertAll(extract)
+
+    }
+}
+
+enum class ExchangeEvent {
+    BUY, SELL
 }
