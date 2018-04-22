@@ -2,6 +2,7 @@ package com.example.brunocolombini.wallet.feature.login
 
 import android.content.Context
 import com.example.brunocolombini.wallet.DAO.AppDatabase
+import com.example.brunocolombini.wallet.DAO.infra.UserPreference
 import com.example.brunocolombini.wallet.DAO.user.UserWallet
 import com.example.brunocolombini.wallet.util.HashUtils
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -11,13 +12,27 @@ import javax.inject.Inject
 
 
 open class LoginPresenter @Inject constructor(
-        private val view: LoginContract.View) : LoginContract.Presenter {
+        private val view: LoginContract.View,
+        private val userPreference: UserPreference) : LoginContract.Presenter {
 
     private val mDisposable = CompositeDisposable()
 
     lateinit var db: AppDatabase
     override fun onAttachView(context: Context) {
         db = AppDatabase.getInstance(context)!!
+        if (userPreference.isLogged()) {
+            getUserAndLogin(userPreference.getUserId())
+        }
+    }
+
+
+    private fun getUserAndLogin(id: Long) {
+        mDisposable.add(db
+                .userDao()
+                .findById(id)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe({ doActionLogin(it) }, { view.callUserNotExist() }))
     }
 
     override fun checkUserExist(username: String, password: String) {
@@ -26,7 +41,11 @@ open class LoginPresenter @Inject constructor(
                         .findByUser(username, HashUtils.sha1(password))
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
-                        .subscribe({ doActionLogin(it) }, { view.callUserNotExist() })
+                        .subscribe({
+                            userPreference.saveUserId(it.id!!)
+                            userPreference.saveUserName(it.username)
+                            doActionLogin(it)
+                        }, { view.callUserNotExist() })
         )
     }
 
@@ -37,4 +56,9 @@ open class LoginPresenter @Inject constructor(
             view.callUserNotExist()
         }
     }
+
+    override fun onDestroy() {
+        mDisposable.clear()
+    }
+
 }

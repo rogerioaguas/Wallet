@@ -4,6 +4,7 @@ import android.app.Application
 import com.example.brunocolombini.wallet.WalletApplication
 import com.example.brunocolombini.wallet.di.module.ActivityBuilderModule
 import com.example.brunocolombini.wallet.di.module.ApplicationModule
+import com.example.brunocolombini.wallet.di.module.InfraModule
 import com.example.brunocolombini.wallet.di.module.NetworkModule
 import com.example.brunocolombini.wallet.util.delivery.DeliveryModule
 import dagger.BindsInstance
@@ -19,6 +20,7 @@ import javax.inject.Singleton
         ApplicationModule::class,
         DeliveryModule::class,
         NetworkModule::class,
+        InfraModule::class,
         ActivityBuilderModule::class))
 interface ApplicationComponent : AndroidInjector<WalletApplication> {
 

@@ -1,5 +1,6 @@
 package com.example.brunocolombini.wallet.feature.login
 
+import com.example.brunocolombini.wallet.DAO.infra.UserPreference
 import dagger.Module
 import dagger.Provides
 
@@ -10,8 +11,8 @@ class LoginModule {
     fun provideLoginActivity(activity: LoginActivity): LoginContract.View = activity
 
     @Provides
-    fun providesLoginPresenter(activity: LoginActivity):
+    fun providesLoginPresenter(activity: LoginActivity,userPreference: UserPreference):
             LoginContract.Presenter {
-        return LoginPresenter(activity)
+        return LoginPresenter(activity,userPreference)
     }
 }

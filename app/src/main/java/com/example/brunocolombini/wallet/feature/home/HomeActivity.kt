@@ -4,7 +4,6 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.support.design.widget.NavigationView
-import android.support.design.widget.Snackbar
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentStatePagerAdapter
@@ -13,16 +12,14 @@ import android.support.v7.app.ActionBarDrawerToggle
 import android.view.MenuItem
 import android.view.View
 import android.widget.TextView
+import com.example.brunocolombini.wallet.DAO.user.Extract
 import com.example.brunocolombini.wallet.DAO.user.UserWallet
 import com.example.brunocolombini.wallet.R
 import com.example.brunocolombini.wallet.feature.exchange.ExchangeFragment
 import com.example.brunocolombini.wallet.util.delivery.BalanceEventType
-import com.example.brunocolombini.wallet.util.delivery.UpdateBalanceEvent
 import dagger.android.support.DaggerAppCompatActivity
-import io.reactivex.subjects.PublishSubject
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar_main.*
-import java.util.*
 import javax.inject.Inject
 
 class HomeActivity : DaggerAppCompatActivity(), NavigationView.OnNavigationItemSelectedListener, HomeContract.View {
@@ -30,9 +27,6 @@ class HomeActivity : DaggerAppCompatActivity(), NavigationView.OnNavigationItemS
 
     @Inject
     lateinit var presenter: HomeContract.Presenter
-
-    @Inject
-    lateinit var changeEventDeliverySubject: PublishSubject<UpdateBalanceEvent>
 
     lateinit var user: UserWallet
 
@@ -63,7 +57,8 @@ class HomeActivity : DaggerAppCompatActivity(), NavigationView.OnNavigationItemS
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
-        presenter.onAttachView()
+        presenter.onAttachView(this)
+        presenter.updateUserInformation()
 
         val toggle = ActionBarDrawerToggle(
                 this, drawer_layout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close)
@@ -72,8 +67,8 @@ class HomeActivity : DaggerAppCompatActivity(), NavigationView.OnNavigationItemS
 
         nav_view.setNavigationItemSelectedListener(this)
 
+        presenter.updateUserInformation()
         user = intent.extras.getSerializable(USER_EXTRA) as UserWallet
-        updateUserInformation(user)
         configPagerAdapter()
     }
 
@@ -95,6 +90,7 @@ class HomeActivity : DaggerAppCompatActivity(), NavigationView.OnNavigationItemS
             R.id.extract -> {
             }
             R.id.log_out -> {
+                presenter.onDestroy()
                 finish()
             }
         }
@@ -103,7 +99,7 @@ class HomeActivity : DaggerAppCompatActivity(), NavigationView.OnNavigationItemS
         return true
     }
 
-    private fun updateUserInformation(user: UserWallet) {
+    override fun updateUserInformation(extracts: List<Extract>) {
         val navView: NavigationView = findViewById(R.id.nav_view)
         val header: View = navView.getHeaderView(0)
 
@@ -113,9 +109,22 @@ class HomeActivity : DaggerAppCompatActivity(), NavigationView.OnNavigationItemS
         val britasBalanceTextView: TextView = header.findViewById(R.id.britas_balance)
 
         userNameTextView.text = user.username
-        fiatBalanceTextView.text = String.format(resources.getString(R.string.balance_fiat), user.fiat_balance)
-        btcBalanceTextView.text = String.format(resources.getString(R.string.balance_btc), user.btc_balance)
-        britasBalanceTextView.text = String.format(resources.getString(R.string.balance_britas), user.britas_balance)
+
+        for (extract in extracts) {
+            when (extract.coin) {
+                resources.getString(R.string.fiat) -> {
+                    fiatBalanceTextView.text = String.format(resources.getString(R.string.balance_fiat), extract.amount)
+                }
+                resources.getString(R.string.btc) -> {
+                    btcBalanceTextView.text = String.format(resources.getString(R.string.balance_btc), extract.amount)
+                }
+                resources.getString(R.string.bts) -> {
+                    britasBalanceTextView.text = String.format(resources.getString(R.string.balance_britas), extract.amount)
+                }
+            }
+
+        }
+
     }
 
     companion object {

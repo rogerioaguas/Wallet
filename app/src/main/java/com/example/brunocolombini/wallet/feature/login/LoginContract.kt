@@ -12,5 +12,6 @@ interface LoginContract {
     interface Presenter {
         fun checkUserExist(username: String, password: String)
         fun onAttachView(context: Context)
+        fun onDestroy()
     }
 }
