@@ -92,6 +92,10 @@ class HomeActivity : DaggerAppCompatActivity(), NavigationView.OnNavigationItemS
             }
             R.id.log_out -> {
                 presenter.onDestroy()
+                val fm = supportFragmentManager
+                for (i in 0 until fm.backStackEntryCount) {
+                    fm.popBackStack()
+                }
                 finish()
             }
         }

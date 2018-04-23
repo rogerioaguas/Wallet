@@ -1,6 +1,5 @@
 package com.example.brunocolombini.wallet.feature.home
 
-import android.content.Context
 import com.example.brunocolombini.wallet.DAO.AppDatabase
 import com.example.brunocolombini.wallet.DAO.infra.UserPreference
 import com.example.brunocolombini.wallet.DAO.user.Extract
@@ -8,10 +7,7 @@ import com.example.brunocolombini.wallet.util.delivery.UpdateBalanceEvent
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
-import io.reactivex.subjects.BehaviorSubject
 import io.reactivex.subjects.PublishSubject
-import io.reactivex.subjects.ReplaySubject
-import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 
@@ -34,6 +30,7 @@ class HomePresenter @Inject constructor(
 
     override fun onDestroy() {
         userPreference.clear()
+        compositeDisposable.clear()
     }
 
     override fun updateUserInformation() {

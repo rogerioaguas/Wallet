@@ -1,5 +1,6 @@
 package com.example.brunocolombini.wallet.feature.exchange
 
+import android.util.Log
 import com.example.brunocolombini.wallet.DAO.AppDatabase
 import com.example.brunocolombini.wallet.DAO.infra.UserPreference
 import com.example.brunocolombini.wallet.DAO.user.Extract
@@ -8,6 +9,7 @@ import com.example.brunocolombini.wallet.data.BancoCentralModel
 import com.example.brunocolombini.wallet.data.MercadoBitcoinModel
 import com.example.brunocolombini.wallet.util.delivery.BalanceEventType
 import com.example.brunocolombini.wallet.util.delivery.UpdateBalanceEvent
+import io.reactivex.Completable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
@@ -31,6 +33,7 @@ class ExchangePresenter @Inject constructor(
     override fun onAttachView(view: ExchangeContract.View) {
         this.view = view
         db = AppDatabase.getInstance(view.getContext())!!
+        compositeDisposable.clear()
         compositeDisposable.add(changeEventDeliverySubject
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({ t: UpdateBalanceEvent ->
@@ -88,7 +91,12 @@ class ExchangePresenter @Inject constructor(
         } else {
             Extract(null, userPreference.getUserId(), amount * -1, eventType, Date().toString())
         }
-        db.extractDao().insertAll(extract)
+        compositeDisposable.add(
+                Completable
+                        .fromAction { db.extractDao().insertAll(extract) }
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe({ }))
 
     }
 }
