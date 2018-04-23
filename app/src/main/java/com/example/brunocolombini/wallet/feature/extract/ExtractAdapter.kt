@@ -1,6 +1,7 @@
 package com.example.brunocolombini.wallet.feature.extract
 
 import android.content.Context
+import android.support.v4.content.ContextCompat
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
@@ -24,7 +25,7 @@ constructor(
     override fun onBindViewHolder(holder: ExtractHolder?, position: Int) {
         holder?.let { entity ->
             val extractPosition = extracts.get(position)
-            entity.amount.setTextColor(context.resources.getColor(when (extractPosition.amount >= 0) {
+            entity.amount.setTextColor(ContextCompat.getColor(context, when (extractPosition.amount >= 0) {
                 true -> android.R.color.holo_green_dark
                 false -> android.R.color.holo_red_dark
             }))
