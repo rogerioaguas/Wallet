@@ -87,9 +87,9 @@ class ExchangePresenter @Inject constructor(
 
     override fun updateExtract(amount: Double, eventType: String, exchangeEvent: ExchangeEvent) {
         val extract = if (exchangeEvent == ExchangeEvent.BUY) {
-            Extract(null, userPreference.getUserId(), amount * 1, eventType, Date().toString())
+            Extract(null, userPreference.getUserId(), amount * 1, eventType)
         } else {
-            Extract(null, userPreference.getUserId(), amount * -1, eventType, Date().toString())
+            Extract(null, userPreference.getUserId(), amount * -1, eventType)
         }
         compositeDisposable.add(
                 Completable

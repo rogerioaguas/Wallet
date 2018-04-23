@@ -19,4 +19,4 @@ data class Extract(
         @ColumnInfo(name = "userId") val userId: Long?,
         @ColumnInfo(name = "amount") val amount: Double,
         @ColumnInfo(name = "coin") val coin: String,
-        @ColumnInfo(name = "date") val date: String? = Calendar.getInstance().toString())
+        @ColumnInfo(name = "date") val date: String? = Date().toString())

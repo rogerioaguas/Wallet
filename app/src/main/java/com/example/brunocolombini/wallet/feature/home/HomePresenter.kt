@@ -34,7 +34,7 @@ class HomePresenter @Inject constructor(
     }
 
     override fun updateUserInformation() {
-        compositeDisposable.addAll(
+        compositeDisposable.add(
                 db.extractDao()
                         .getGroupExtractById(userPreference.getUserId())
                         .subscribeOn(Schedulers.io())

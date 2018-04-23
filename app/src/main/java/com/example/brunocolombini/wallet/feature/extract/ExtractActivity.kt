@@ -3,7 +3,9 @@ package com.example.brunocolombini.wallet.feature.extract
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.support.v7.widget.LinearLayoutManager
 import android.view.MenuItem
+import com.example.brunocolombini.wallet.DAO.user.Extract
 import com.example.brunocolombini.wallet.R
 import dagger.android.support.DaggerAppCompatActivity
 import kotlinx.android.synthetic.main.activity_extract.*
@@ -19,7 +21,15 @@ class ExtractActivity : DaggerAppCompatActivity(), ExtractContract.View {
         setContentView(R.layout.activity_extract)
         setSupportActionBar(toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        recyclerView.layoutManager = LinearLayoutManager(this)
+        presenter.onAttachView(this)
+        presenter.getAllExtracts()
 
+
+    }
+
+    override fun setRecycleView(extracts: List<Extract>) {
+        this.recyclerView.adapter = ExtractAdapter(this, extracts)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
