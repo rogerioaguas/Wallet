@@ -15,8 +15,8 @@ import java.util.*
                 childColumns = arrayOf("userId"),
                 onDelete = CASCADE)))
 data class Extract(
-        @PrimaryKey(autoGenerate = true) val id: Long?,
-        @ColumnInfo(name = "userId") val userId: Long?,
-        @ColumnInfo(name = "amount") val amount: Double,
-        @ColumnInfo(name = "coin") val coin: String,
-        @ColumnInfo(name = "date") val date: String? = Date().toString())
+        @PrimaryKey(autoGenerate = true) var id: Long?,
+        @ColumnInfo(name = "userId") var userId: Long?,
+        @ColumnInfo(name = "amount") var amount: Double,
+        @ColumnInfo(name = "coin") var coin: String,
+        @ColumnInfo(name = "date") var date: String? = Date().toString())
