@@ -8,13 +8,9 @@
         android:icon="@drawable/ic_insert_drive_file_black_24dp"
         android:title="@string/extract" />
 
-    <item android:title="">
-        <menu>
-            <item
-                android:id="@+id/log_out"
-                android:icon="@drawable/ic_exit_to_app_black_24dp"
-                android:title="@string/log_out" />
-        </menu>
-    </item>
+    <item
+        android:id="@+id/log_out"
+        android:icon="@drawable/ic_exit_to_app_black_24dp"
+        android:title="@string/log_out" />
 
 </menu>

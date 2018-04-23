@@ -12,5 +12,21 @@
     <string name="log_out">Sair</string>
     <string name="extract">Extrato</string>
     <string name="user_name_sample">Android Studio</string>
-    <string name="balance_sample">R$ Balance</string>
+    <string name="balance_fiat">R$ %.2f</string>
+    <string name="balance_btc">BTC %.8f</string>
+    <string name="balance_britas">BRITAS %.8f</string>
+    <string name="register">Cadastro</string>
+    <string name="bid">Compra</string>
+    <string name="price">Preco</string>
+    <string name="qnt">Quantidade</string>
+    <string name="total">Total</string>
+    <string name="buy">Comprar</string>
+    <string name="ask">Venda</string>
+    <string name="sell">Vender</string>
+
+    <string name="btc">BITCOIN</string>
+    <string name="fiat">FIAT</string>
+    <string name="bts">BRITAS</string>
+    <string name="sample_amount">- 100000.00</string>
+    <string name="date">26/02/1991</string>
 </resources>
