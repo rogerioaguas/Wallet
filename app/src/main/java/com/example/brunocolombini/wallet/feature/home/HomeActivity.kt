@@ -16,6 +16,7 @@ import com.example.brunocolombini.wallet.DAO.user.Extract
 import com.example.brunocolombini.wallet.DAO.user.UserWallet
 import com.example.brunocolombini.wallet.R
 import com.example.brunocolombini.wallet.feature.exchange.ExchangeFragment
+import com.example.brunocolombini.wallet.feature.extract.ExtractActivity
 import com.example.brunocolombini.wallet.util.delivery.BalanceEventType
 import dagger.android.support.DaggerAppCompatActivity
 import kotlinx.android.synthetic.main.activity_main.*
@@ -89,6 +90,7 @@ class HomeActivity : DaggerAppCompatActivity(), NavigationView.OnNavigationItemS
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.extract -> {
+                startActivity(ExtractActivity.getCallingIntent(this))
             }
             R.id.log_out -> {
                 presenter.onDestroy()
