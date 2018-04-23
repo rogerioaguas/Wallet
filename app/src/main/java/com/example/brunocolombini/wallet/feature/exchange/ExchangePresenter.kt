@@ -63,13 +63,13 @@ class ExchangePresenter @Inject constructor(
     private fun updateBalanceView(extracts: List<Extract>) {
         for (extract in extracts) {
             when (extract.coin) {
-                "Fiat" -> {
+                "FIAT" -> {
                     view.updateBalance(BalanceEventType.FIAT, extract.amount)
                 }
-                "Bitcoin" -> {
+                "BITCOIN" -> {
                     view.updateBalance(BalanceEventType.BTC, extract.amount)
                 }
-                "britas" -> {
+                "BRITAS" -> {
                     view.updateBalance(BalanceEventType.BRITAS, extract.amount)
                 }
             }

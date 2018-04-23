@@ -24,9 +24,9 @@
     <string name="ask">Venda</string>
     <string name="sell">Vender</string>
 
-    <string name="btc">Bitcoin</string>
-    <string name="fiat">Fiat</string>
-    <string name="bts">britas</string>
+    <string name="btc">BITCOIN</string>
+    <string name="fiat">FIAT</string>
+    <string name="bts">BRITAS</string>
     <string name="sample_amount">- 100000.00</string>
     <string name="date">26/02/1991</string>
 </resources>

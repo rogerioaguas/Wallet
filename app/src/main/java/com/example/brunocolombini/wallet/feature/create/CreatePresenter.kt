@@ -40,9 +40,9 @@ open class CreatePresenter @Inject constructor(
                 .flatMap { t ->
                     Single.just(
                             appDatabase.extractDao().insertAll(
-                                    Extract(null, t.id!!, 100000.00, this.context.getString(R.string.fiat)),
-                                    Extract(null, t.id!!, 0.0, this.context.getString(R.string.btc)),
-                                    Extract(null, t.id!!, 0.0, this.context.getString(R.string.bts))))
+                                    Extract(null, t.id!!, 100000.00, "FIAT"),
+                                    Extract(null, t.id!!, 0.0, "BITCOIN"),
+                                    Extract(null, t.id!!, 0.0, "BRITAS")))
                 }
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
