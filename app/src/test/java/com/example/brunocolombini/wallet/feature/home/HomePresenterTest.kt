@@ -48,7 +48,7 @@ class HomePresenterTest {
     @Test
     fun on_balance_is_updated_success() {
         val updateBalance = UpdateBalanceEvent(BalanceEventType.FIAT, 10.0)
-        `when`(publishSubject.sample(500, TimeUnit.MILLISECONDS)
+        `when`(publishSubject
                 .observeOn(AndroidSchedulers.mainThread())).thenReturn(Observable.just(updateBalance))
         presenter.onAttachView()
         verify(view, times(1)).updateBalance(eq(BalanceEventType.FIAT), eq(10.0))
