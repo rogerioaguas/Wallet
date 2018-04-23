@@ -86,6 +86,7 @@ task jacocoTestReport(type: JacocoReport, dependsOn: ['testDebugUnitTest', 'crea
     def fileFilter = ['**/R.class',
                       '**/*_Impl*',
                       '**/**Module**',
+                      '**/**Fragment**',
                       '**/DAO**',
                       '**/component**',
                       '**/aplication**',
@@ -94,12 +95,16 @@ task jacocoTestReport(type: JacocoReport, dependsOn: ['testDebugUnitTest', 'crea
                       '**/WalletApplication*',
                       '**/R$*.class',
                       '**/BuildConfig.*',
+                      '**/data',
+                      '**/TextWatcherCryptoInput**',
+                      '**/**Adapter**',
+                      '**/MarketType**',
                       '**/Manifest*.*',
                       '**/*Test*.*',
                       'android/**/*.*',
                       '**/*_MembersInjector.class',
-                      '**/Dagger*Component.class', // covers component implementations
-                      '**/Dagger*Component$Builder.class', // covers component builders
+                      '**/Dagger*Component.class',
+                      '**/Dagger*Component$Builder.class',
                       '**/*Module_*Factory.class']
     def debugTree = fileTree(dir: "${buildDir}/intermediates/classes/debug", excludes: fileFilter)
     def kotlinDebugTree = fileTree(dir: "${buildDir}/tmp/kotlin-classes/debug", excludes: fileFilter)

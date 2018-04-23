@@ -1,6 +1,7 @@
 package com.example.brunocolombini.wallet.feature.login
 
 import com.example.brunocolombini.wallet.DAO.AppDatabase
+import com.example.brunocolombini.wallet.DAO.infra.UserPreference
 import com.example.brunocolombini.wallet.DAO.user.UserDao
 import com.example.brunocolombini.wallet.DAO.user.UserWallet
 import com.nhaarman.mockito_kotlin.eq
@@ -22,14 +23,17 @@ import org.mockito.MockitoAnnotations
 class LoginPresenterTest {
 
 
-    @Mock
-    lateinit var view: LoginContract.View
-
     @InjectMocks
     lateinit var presenter: LoginPresenter
 
     @Mock
+    lateinit var view: LoginContract.View
+
+    @Mock
     lateinit var appDataBase: AppDatabase
+
+    @Mock
+    lateinit var userPreference: UserPreference
 
     @Mock
     lateinit var userDao: UserDao
