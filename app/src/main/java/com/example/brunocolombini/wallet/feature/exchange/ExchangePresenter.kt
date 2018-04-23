@@ -1,6 +1,5 @@
 package com.example.brunocolombini.wallet.feature.exchange
 
-import android.util.Log
 import com.example.brunocolombini.wallet.DAO.AppDatabase
 import com.example.brunocolombini.wallet.DAO.infra.UserPreference
 import com.example.brunocolombini.wallet.DAO.user.Extract
@@ -13,27 +12,20 @@ import io.reactivex.Completable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
-import io.reactivex.subjects.BehaviorSubject
 import io.reactivex.subjects.PublishSubject
-import java.util.*
-import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 class ExchangePresenter @Inject constructor(
         private val changeEventDeliverySubject: PublishSubject<UpdateBalanceEvent>,
         private val api: Api,
-        private val userPreference: UserPreference
+        private val userPreference: UserPreference,
+        private val appDatabase: AppDatabase,
+        val view: ExchangeContract.View
 ) : ExchangeContract.Presenter {
 
-    lateinit var view: ExchangeContract.View
     private val compositeDisposable = CompositeDisposable()
 
-    lateinit var db: AppDatabase
-
-    override fun onAttachView(view: ExchangeContract.View) {
-        this.view = view
-        db = AppDatabase.getInstance(view.getContext())!!
-        compositeDisposable.clear()
+    override fun onAttachView() {
         compositeDisposable.add(changeEventDeliverySubject
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({ t: UpdateBalanceEvent ->
@@ -58,7 +50,7 @@ class ExchangePresenter @Inject constructor(
     }
 
     override fun updateBalance() {
-        db.extractDao()
+        appDatabase.extractDao()
                 .getGroupExtractById(userPreference.getUserId())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
@@ -93,7 +85,7 @@ class ExchangePresenter @Inject constructor(
         }
         compositeDisposable.add(
                 Completable
-                        .fromAction { db.extractDao().insertAll(extract) }
+                        .fromAction { appDatabase.extractDao().insertAll(extract) }
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe({ }))

@@ -22,7 +22,6 @@ class ExtractActivity : DaggerAppCompatActivity(), ExtractContract.View {
         setSupportActionBar(toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         recyclerView.layoutManager = LinearLayoutManager(this)
-        presenter.onAttachView(this)
         presenter.getAllExtracts()
 
 

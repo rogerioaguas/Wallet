@@ -7,12 +7,11 @@ interface ExchangeContract {
     interface View {
         fun updateBalance(balanceType: BalanceEventType, value: Double)
         fun setCryptoPrice(britas: BalanceEventType, bid: Double, ask: Double)
-        fun getContext(): Context
     }
 
 
     interface Presenter {
-        fun onAttachView(view: ExchangeContract.View)
+        fun onAttachView()
         fun getBritasPrice()
         fun getBtcPrice()
         fun updateBalance()

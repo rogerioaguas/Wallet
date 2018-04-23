@@ -1,6 +1,7 @@
 package com.example.brunocolombini.wallet.di.component
 
 import android.app.Application
+import com.example.brunocolombini.wallet.DAO.DAOModule
 import com.example.brunocolombini.wallet.WalletApplication
 import com.example.brunocolombini.wallet.di.module.ActivityBuilderModule
 import com.example.brunocolombini.wallet.di.module.ApplicationModule
@@ -21,6 +22,7 @@ import javax.inject.Singleton
         DeliveryModule::class,
         NetworkModule::class,
         InfraModule::class,
+        DAOModule::class,
         ActivityBuilderModule::class))
 interface ApplicationComponent : AndroidInjector<WalletApplication> {
 

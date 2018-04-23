@@ -1,5 +1,6 @@
 package com.example.brunocolombini.wallet.feature.extract
 
+import com.example.brunocolombini.wallet.DAO.AppDatabase
 import com.example.brunocolombini.wallet.DAO.infra.UserPreference
 import dagger.Module
 import dagger.Provides
@@ -13,6 +14,6 @@ class ExtractModule {
 
 
     @Provides
-    fun providesExtractPresenter(activity: ExtractActivity,userPreference: UserPreference): ExtractContract.Presenter = ExtractPresenter(activity,userPreference)
+    fun providesExtractPresenter(activity: ExtractActivity, userPreference: UserPreference, appDatabase: AppDatabase): ExtractContract.Presenter = ExtractPresenter(activity, userPreference, appDatabase)
 
 }

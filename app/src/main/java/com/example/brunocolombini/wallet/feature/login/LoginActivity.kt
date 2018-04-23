@@ -11,13 +11,14 @@ import kotlinx.android.synthetic.main.activity_login.*
 import javax.inject.Inject
 
 open class LoginActivity : DaggerAppCompatActivity(), LoginContract.View {
+
     @Inject
     lateinit var presenter: LoginContract.Presenter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
-        presenter.onAttachView(this)
+        presenter.onAttachView()
         sign_in.setOnClickListener { presenter.checkUserExist(login_user.text.toString(), login_password.text.toString()) }
         sign_up.setOnClickListener { startActivity(CreateActivity.getCallingIntent(this)) }
     }

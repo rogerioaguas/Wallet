@@ -14,13 +14,12 @@ import javax.inject.Inject
 class HomePresenter @Inject constructor(
         val view: HomeContract.View,
         private val userPreference: UserPreference,
-        private val changeEventDeliverySubject: PublishSubject<UpdateBalanceEvent>) : HomeContract.Presenter {
+        private val changeEventDeliverySubject: PublishSubject<UpdateBalanceEvent>,
+        private val appDatabase: AppDatabase) : HomeContract.Presenter {
 
     private val compositeDisposable = CompositeDisposable()
-    lateinit var db: AppDatabase
 
     override fun onAttachView() {
-        db = AppDatabase.getInstance(view.getContext())!!
         compositeDisposable.add(changeEventDeliverySubject
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({ t: UpdateBalanceEvent ->
@@ -35,7 +34,7 @@ class HomePresenter @Inject constructor(
 
     override fun updateUserInformation() {
         compositeDisposable.add(
-                db.extractDao()
+                appDatabase.extractDao()
                         .getGroupExtractById(userPreference.getUserId())
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())

@@ -37,7 +37,6 @@ class LoginPresenterTest {
     @Before
     fun setUp() {
         MockitoAnnotations.initMocks(this)
-        presenter.db = appDataBase
         RxJavaPlugins.setIoSchedulerHandler { Schedulers.trampoline() }
         RxJavaPlugins.setComputationSchedulerHandler { Schedulers.trampoline() }
         RxJavaPlugins.setNewThreadSchedulerHandler { Schedulers.trampoline() }
@@ -48,16 +47,16 @@ class LoginPresenterTest {
     fun user_exist_in_local_database() {
         val user_expect = UserWallet(1, "ABC", "7C4A8D09CA3762AF61E59520943DC26494F8941B")
 
-        `when`(presenter.db.userDao()).thenReturn(userDao)
-        `when`(presenter.db.userDao().findByUser(ArgumentMatchers.anyString(), ArgumentMatchers.anyString())).thenReturn(Single.just( UserWallet(1, "ABC", "7C4A8D09CA3762AF61E59520943DC26494F8941B")))
+        `when`(appDataBase.userDao()).thenReturn(userDao)
+        `when`(appDataBase.userDao().findByUser(ArgumentMatchers.anyString(), ArgumentMatchers.anyString())).thenReturn(Single.just(UserWallet(1, "ABC", "7C4A8D09CA3762AF61E59520943DC26494F8941B")))
         presenter.checkUserExist("ABC@ABC.com", "123456")
         verify(view, times(1)).doLogin(eq(user_expect))
     }
 
     @Test
     fun user_not_exist_in_local_database() {
-        `when`(presenter.db.userDao()).thenReturn(userDao)
-        `when`(presenter.db.userDao().findByUser(ArgumentMatchers.anyString(), ArgumentMatchers.anyString())).thenReturn(Single.error(Throwable("error")))
+        `when`(appDataBase.userDao()).thenReturn(userDao)
+        `when`(appDataBase.userDao().findByUser(ArgumentMatchers.anyString(), ArgumentMatchers.anyString())).thenReturn(Single.error(Throwable("error")))
         presenter.checkUserExist("ABC@ABC.com", "123456")
         verify(view, times(1)).callUserNotExist()
     }

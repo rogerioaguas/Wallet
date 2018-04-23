@@ -21,7 +21,7 @@ import kotlinx.android.synthetic.main.fragment_exchange.view.*
 import org.intellij.lang.annotations.JdkConstants
 import javax.inject.Inject
 
-class ExchangeFragment : DaggerFragment(), ExchangeContract.View {
+class ExchangeFragment: DaggerFragment(), ExchangeContract.View {
 
     @Inject
     lateinit var presenter: ExchangeContract.Presenter
@@ -37,7 +37,7 @@ class ExchangeFragment : DaggerFragment(), ExchangeContract.View {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         fragmentView = inflater.inflate(R.layout.fragment_exchange, container, false)
-        presenter.onAttachView(this)
+        presenter.onAttachView()
 
         userInformation = arguments.getSerializable(USER_ARGS) as UserWallet
         marketType = arguments.getSerializable(MARKET_TYPE) as MarketType

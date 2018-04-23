@@ -10,6 +10,5 @@ interface ExtractContract {
 
     interface Presenter {
         fun getAllExtracts()
-        fun onAttachView(context: Context)
     }
 }

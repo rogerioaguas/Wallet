@@ -36,13 +36,9 @@ class HomePresenterTest {
     @Mock
     lateinit var userPreference: UserPreference
 
-    @Mock
-    lateinit var ctx: Context
-
     @Before
     fun setUp() {
         MockitoAnnotations.initMocks(this)
-        presenter.db = appDataBase
         RxJavaPlugins.setIoSchedulerHandler { Schedulers.trampoline() }
         RxJavaPlugins.setComputationSchedulerHandler { Schedulers.trampoline() }
         RxJavaPlugins.setNewThreadSchedulerHandler { Schedulers.trampoline() }
@@ -52,7 +48,6 @@ class HomePresenterTest {
     @Test
     fun on_balance_is_updated_success() {
         val updateBalance = UpdateBalanceEvent(BalanceEventType.FIAT, 10.0)
-        `when`(view.getContext()).thenReturn(ctx)
         `when`(publishSubject.sample(500, TimeUnit.MILLISECONDS)
                 .observeOn(AndroidSchedulers.mainThread())).thenReturn(Observable.just(updateBalance))
         presenter.onAttachView()

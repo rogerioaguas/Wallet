@@ -13,13 +13,12 @@ import javax.inject.Inject
 
 open class LoginPresenter @Inject constructor(
         private val view: LoginContract.View,
-        private val userPreference: UserPreference) : LoginContract.Presenter {
+        private val userPreference: UserPreference,
+        private val appDatabase: AppDatabase) : LoginContract.Presenter {
 
     private val mDisposable = CompositeDisposable()
 
-    lateinit var db: AppDatabase
-    override fun onAttachView(context: Context) {
-        db = AppDatabase.getInstance(context)!!
+    override fun onAttachView() {
         if (userPreference.isLogged()) {
             getUserAndLogin(userPreference.getUserId())
         }
@@ -27,7 +26,7 @@ open class LoginPresenter @Inject constructor(
 
 
     private fun getUserAndLogin(id: Long) {
-        mDisposable.add(db
+        mDisposable.add(appDatabase
                 .userDao()
                 .findById(id)
                 .subscribeOn(Schedulers.io())
@@ -37,7 +36,7 @@ open class LoginPresenter @Inject constructor(
 
     override fun checkUserExist(username: String, password: String) {
         mDisposable.add(
-                db.userDao()
+                appDatabase.userDao()
                         .findByUser(username, HashUtils.sha1(password))
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())

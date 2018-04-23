@@ -18,16 +18,14 @@ import javax.inject.Inject
 
 
 open class CreatePresenter @Inject constructor(
-        private val view: CreateContract.View) : CreateContract.Presenter {
+        private val view: CreateContract.View,
+        private val appDatabase: AppDatabase) : CreateContract.Presenter {
 
-
-    lateinit var db: AppDatabase
     private val mDisposable = CompositeDisposable()
     lateinit var context: Context
 
     override fun onAttachView(context: Context) {
         this.context = context
-        db = AppDatabase.getInstance(context)!!
     }
 
     override fun saveUser(name: String, password: String) {
@@ -37,18 +35,18 @@ open class CreatePresenter @Inject constructor(
         }
         val user = UserWallet(id = null, username = name, password = HashUtils.sha1(password))
         mDisposable.add(Completable
-                .fromAction { db.userDao().insertAll(user) }
-                .andThen(db.userDao().findByUser(user.username, user.password))
+                .fromAction { appDatabase.userDao().insertAll(user) }
+                .andThen(appDatabase.userDao().findByUser(user.username, user.password))
                 .flatMap { t ->
                     Single.just(
-                            db.extractDao().insertAll(
+                            appDatabase.extractDao().insertAll(
                                     Extract(null, t.id!!, 100000.00, this.context.getString(R.string.fiat)),
                                     Extract(null, t.id!!, 0.0, this.context.getString(R.string.btc)),
                                     Extract(null, t.id!!, 0.0, this.context.getString(R.string.bts))))
                 }
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe({ view.success() }, { t -> Log.e("CREATE", t.message);view.errorAlert() }))
+                .subscribe({ view.success() }, { view.errorAlert() }))
     }
 
     private fun checkUserFieldValidade(name: String, password: String): Boolean = name.isEmpty() || password.isEmpty()

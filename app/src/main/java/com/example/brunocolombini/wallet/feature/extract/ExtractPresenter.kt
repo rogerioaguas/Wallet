@@ -9,20 +9,15 @@ import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 
 
-class ExtractPresenter @Inject constructor(private val activity: ExtractContract.View, private val userPreference: UserPreference) : ExtractContract.Presenter {
-
-    private lateinit var context: Context
-    lateinit var db: AppDatabase
+class ExtractPresenter @Inject constructor(
+        private val activity: ExtractContract.View,
+        private val userPreference: UserPreference,
+        private val appDatabase: AppDatabase) : ExtractContract.Presenter {
 
     private val compositeDisposable = CompositeDisposable()
 
-    override fun onAttachView(context: Context) {
-        this.context = context
-        db = AppDatabase.getInstance(context)!!
-    }
-
     override fun getAllExtracts() {
-        compositeDisposable.add(db.extractDao()
+        compositeDisposable.add(appDatabase.extractDao()
                 .getExtractById(userPreference.getUserId())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())

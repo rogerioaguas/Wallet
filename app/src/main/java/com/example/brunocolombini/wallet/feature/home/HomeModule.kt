@@ -1,5 +1,6 @@
 package com.example.brunocolombini.wallet.feature.home
 
+import com.example.brunocolombini.wallet.DAO.AppDatabase
 import com.example.brunocolombini.wallet.DAO.infra.UserPreference
 import com.example.brunocolombini.wallet.util.delivery.UpdateBalanceEvent
 import dagger.Module
@@ -13,8 +14,11 @@ class HomeModule {
     fun providesHomeActivity(activity: HomeActivity): HomeContract.View = activity
 
     @Provides
-    fun providesLoginPresenter(activity: HomeActivity, userPreference: UserPreference, changeEventDeliverySubject: PublishSubject<UpdateBalanceEvent>):
-            HomeContract.Presenter {
-        return HomePresenter(activity, userPreference, changeEventDeliverySubject)
-    }
+    fun providesLoginPresenter(
+            activity: HomeActivity,
+            userPreference: UserPreference,
+            changeEventDeliverySubject: PublishSubject<UpdateBalanceEvent>,
+            appDatabase: AppDatabase):
+            HomeContract.Presenter = HomePresenter(activity, userPreference, changeEventDeliverySubject, appDatabase)
+
 }

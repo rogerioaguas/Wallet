@@ -31,7 +31,6 @@ class CreatePresenterTest {
     @Before
     fun setUp() {
         MockitoAnnotations.initMocks(this)
-        presenter.db = appDataBase
         RxJavaPlugins.setIoSchedulerHandler { Schedulers.trampoline() }
         RxJavaPlugins.setComputationSchedulerHandler { Schedulers.trampoline() }
         RxJavaPlugins.setNewThreadSchedulerHandler { Schedulers.trampoline() }
@@ -40,7 +39,7 @@ class CreatePresenterTest {
 
     @Test
     fun save_user_ok() {
-        Mockito.`when`(presenter.db.userDao()).thenReturn(userDao)
+        Mockito.`when`(appDataBase.userDao()).thenReturn(userDao)
         presenter.saveUser("ABC", "123456")
         verify(view, times(1)).success()
     }
