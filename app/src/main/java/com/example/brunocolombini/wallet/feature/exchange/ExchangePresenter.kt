@@ -41,6 +41,12 @@ class ExchangePresenter @Inject constructor(
                 }
     }
 
+    /**
+    The method call the api for make request to get the coin value.
+    @param null
+    @return void
+    @throw null
+     */
     override fun getBtcPrice() {
         api.getBtcPrice("https://www.mercadobitcoin.net/api/BTC/ticker/")
                 .observeOn(AndroidSchedulers.mainThread())
@@ -93,6 +99,9 @@ class ExchangePresenter @Inject constructor(
     }
 }
 
+/**
+ * Enum trade operation
+ */
 enum class ExchangeEvent {
     BUY, SELL
 }

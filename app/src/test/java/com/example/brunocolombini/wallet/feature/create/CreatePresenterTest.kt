@@ -1,23 +1,19 @@
 package com.example.brunocolombini.wallet.feature.create
 
+import com.example.brunocolombini.wallet.BaseTest
 import com.example.brunocolombini.wallet.DAO.AppDatabase
 import com.example.brunocolombini.wallet.DAO.user.ExtractDao
 import com.example.brunocolombini.wallet.DAO.user.UserDao
 import com.example.brunocolombini.wallet.DAO.user.UserWallet
+import com.nhaarman.mockito_kotlin.any
 import io.reactivex.Single
-import io.reactivex.android.plugins.RxAndroidPlugins
-import io.reactivex.plugins.RxJavaPlugins
-import io.reactivex.schedulers.Schedulers
-import org.junit.Before
 import org.junit.Test
 import org.mockito.InjectMocks
 import org.mockito.Mock
 import org.mockito.Mockito
 import org.mockito.Mockito.*
-import org.mockito.MockitoAnnotations
-import com.nhaarman.mockito_kotlin.any
 
-class CreatePresenterTest {
+class CreatePresenterTest :BaseTest() {
 
     @InjectMocks
     lateinit var presenter: CreatePresenter
@@ -33,15 +29,6 @@ class CreatePresenterTest {
 
     @Mock
     lateinit var extractDao: ExtractDao
-
-    @Before
-    fun setUp() {
-        MockitoAnnotations.initMocks(this)
-        RxJavaPlugins.setIoSchedulerHandler { Schedulers.trampoline() }
-        RxJavaPlugins.setComputationSchedulerHandler { Schedulers.trampoline() }
-        RxJavaPlugins.setNewThreadSchedulerHandler { Schedulers.trampoline() }
-        RxAndroidPlugins.setInitMainThreadSchedulerHandler { Schedulers.trampoline() }
-    }
 
     @Test
     fun save_user_ok() {

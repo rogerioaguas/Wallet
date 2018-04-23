@@ -1,6 +1,7 @@
 package com.example.brunocolombini.wallet.feature.home
 
 import android.content.Context
+import com.example.brunocolombini.wallet.BaseTest
 import com.example.brunocolombini.wallet.DAO.AppDatabase
 import com.example.brunocolombini.wallet.DAO.infra.UserPreference
 import com.example.brunocolombini.wallet.util.delivery.BalanceEventType
@@ -19,7 +20,7 @@ import com.nhaarman.mockito_kotlin.eq
 import java.util.concurrent.TimeUnit
 
 
-class HomePresenterTest {
+class HomePresenterTest : BaseTest(){
 
     @InjectMocks
     lateinit var presenter: HomePresenter
@@ -35,15 +36,6 @@ class HomePresenterTest {
 
     @Mock
     lateinit var userPreference: UserPreference
-
-    @Before
-    fun setUp() {
-        MockitoAnnotations.initMocks(this)
-        RxJavaPlugins.setIoSchedulerHandler { Schedulers.trampoline() }
-        RxJavaPlugins.setComputationSchedulerHandler { Schedulers.trampoline() }
-        RxJavaPlugins.setNewThreadSchedulerHandler { Schedulers.trampoline() }
-        RxAndroidPlugins.setInitMainThreadSchedulerHandler { Schedulers.trampoline() }
-    }
 
     @Test
     fun on_balance_is_updated_success() {
