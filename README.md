@@ -9,7 +9,7 @@ Utilizada no com Dagger2, RXKotlin e o framework ROOM da Google.
 
 ### Adicionar nova moeda
 
-Não a necessidade de criar novas activitys como estou utilizando fragment, basta adicionar o endpoint com a nova moeda, alterar o 2 enums no projeto e alterar o exchange fragment.
+Não há necessidade de criar novas activitys, como estou utilizando fragment, basta adicionar o endpoint para ser feita a chamda da nova moeda, alterar 2 enums no projeto e alterar o exchange fragment.
  
 
 # Desafio Mobile
