@@ -10,7 +10,7 @@ import org.mockito.MockitoAnnotations
 open class BaseTest{
 
     @Before
-    fun setup(){
+    open fun setup(){
         MockitoAnnotations.initMocks(this)
         RxJavaPlugins.setIoSchedulerHandler { Schedulers.trampoline() }
         RxJavaPlugins.setComputationSchedulerHandler { Schedulers.trampoline() }

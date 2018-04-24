@@ -7,6 +7,7 @@ interface ExchangeContract {
     interface View {
         fun updateBalance(balanceType: BalanceEventType, value: Double)
         fun setCryptoPrice(britas: BalanceEventType, bid: Double, ask: Double)
+        fun extractUpdateWithSuccess()
     }
 
 

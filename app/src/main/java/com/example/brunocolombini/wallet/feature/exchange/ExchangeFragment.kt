@@ -1,5 +1,6 @@
 package com.example.brunocolombini.wallet.feature.exchange
 
+import android.app.AlertDialog
 import android.os.Bundle
 import android.support.design.widget.Snackbar
 import android.view.LayoutInflater
@@ -22,6 +23,7 @@ import org.intellij.lang.annotations.JdkConstants
 import javax.inject.Inject
 
 class ExchangeFragment: DaggerFragment(), ExchangeContract.View {
+
 
     @Inject
     lateinit var presenter: ExchangeContract.Presenter
@@ -141,6 +143,11 @@ class ExchangeFragment: DaggerFragment(), ExchangeContract.View {
         }
     }
 
+    override fun extractUpdateWithSuccess() {
+        Snackbar
+                .make(fragmentView.button_buy,"Transação feita com sucesso",Snackbar.LENGTH_SHORT)
+                .show()
+    }
 
     companion object {
         private const val MARKET_TYPE = "MARKET_TYPE"

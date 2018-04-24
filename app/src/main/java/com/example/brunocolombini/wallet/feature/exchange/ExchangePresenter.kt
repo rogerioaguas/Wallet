@@ -1,5 +1,6 @@
 package com.example.brunocolombini.wallet.feature.exchange
 
+import android.util.Log
 import com.example.brunocolombini.wallet.DAO.AppDatabase
 import com.example.brunocolombini.wallet.DAO.infra.UserPreference
 import com.example.brunocolombini.wallet.DAO.user.Extract
@@ -56,13 +57,12 @@ class ExchangePresenter @Inject constructor(
     }
 
     override fun updateBalance() {
-        appDatabase.extractDao()
+                compositeDisposable.add(appDatabase.extractDao()
                 .getGroupExtractById(userPreference.getUserId())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
                 .subscribe({ t: List<Extract> ->
-                    updateBalanceView(t)
-                })
+                    updateBalanceView(t) }))
 
     }
 
@@ -94,7 +94,7 @@ class ExchangePresenter @Inject constructor(
                         .fromAction { appDatabase.extractDao().insertAll(extract) }
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
-                        .subscribe({ }))
+                        .subscribe({ view.extractUpdateWithSuccess() }))
 
     }
 }
