@@ -25,6 +25,7 @@ class HomePresenter @Inject constructor(
                 .subscribe({ t: UpdateBalanceEvent ->
                     view.updateBalance(t.eventType, t.value)
                 }))
+
     }
 
     override fun onDestroy() {

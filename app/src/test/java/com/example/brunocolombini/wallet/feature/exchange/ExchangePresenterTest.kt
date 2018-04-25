@@ -8,6 +8,7 @@ import com.example.brunocolombini.wallet.DAO.user.ExtractDao
 import com.example.brunocolombini.wallet.data.*
 import com.example.brunocolombini.wallet.util.delivery.BalanceEventType
 import com.example.brunocolombini.wallet.util.delivery.UpdateBalanceEvent
+import com.example.brunocolombini.wallet.util.enums.BalanceEventType
 import com.nhaarman.mockito_kotlin.any
 import com.nhaarman.mockito_kotlin.eq
 import com.nhaarman.mockito_kotlin.verify

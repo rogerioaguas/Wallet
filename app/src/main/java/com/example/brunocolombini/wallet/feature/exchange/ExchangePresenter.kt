@@ -1,14 +1,16 @@
 package com.example.brunocolombini.wallet.feature.exchange
 
-import android.util.Log
 import com.example.brunocolombini.wallet.DAO.AppDatabase
 import com.example.brunocolombini.wallet.DAO.infra.UserPreference
 import com.example.brunocolombini.wallet.DAO.user.Extract
+import com.example.brunocolombini.wallet.R
 import com.example.brunocolombini.wallet.data.Api
 import com.example.brunocolombini.wallet.data.BancoCentralModel
 import com.example.brunocolombini.wallet.data.MercadoBitcoinModel
 import com.example.brunocolombini.wallet.util.delivery.BalanceEventType
 import com.example.brunocolombini.wallet.util.delivery.UpdateBalanceEvent
+import com.example.brunocolombini.wallet.util.enums.BalanceEventType
+import com.example.brunocolombini.wallet.util.enums.ExchangeEvent
 import io.reactivex.Completable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
@@ -34,13 +36,18 @@ class ExchangePresenter @Inject constructor(
                 }))
     }
 
+    override fun onDestroy() {
+        compositeDisposable.clear()
+    }
+
     override fun getBritasPrice() {
         api.getBritasPrice()
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe { ticker: BancoCentralModel ->
+                .subscribe({ ticker: BancoCentralModel ->
                     this.view.setCryptoPrice(BalanceEventType.BRITAS, ticker.value[0].cotacaoCompra, ticker.value[0].cotacaoVenda)
-                }
+                }, {})
     }
+
 
     /**
     The method call the api for make request to get the coin value.
@@ -56,26 +63,29 @@ class ExchangePresenter @Inject constructor(
                 }
     }
 
+
     override fun updateBalance() {
-                compositeDisposable.add(appDatabase.extractDao()
-                .getGroupExtractById(userPreference.getUserId())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribeOn(Schedulers.io())
-                .subscribe({ t: List<Extract> ->
-                    updateBalanceView(t) }))
+        compositeDisposable.add(
+                appDatabase.extractDao()
+                        .getGroupExtractById(userPreference.getUserId())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribeOn(Schedulers.io())
+                        .subscribe({ t: List<Extract> ->
+                            updateBalanceView(t)
+                        }))
 
     }
 
     private fun updateBalanceView(extracts: List<Extract>) {
         for (extract in extracts) {
             when (extract.coin) {
-                "FIAT" -> {
+                view.getStringByResourceId(R.string.fiat) -> {
                     view.updateBalance(BalanceEventType.FIAT, extract.amount)
                 }
-                "BITCOIN" -> {
+                view.getStringByResourceId(R.string.btc) -> {
                     view.updateBalance(BalanceEventType.BTC, extract.amount)
                 }
-                "BRITAS" -> {
+                view.getStringByResourceId(R.string.bts) -> {
                     view.updateBalance(BalanceEventType.BRITAS, extract.amount)
                 }
             }
@@ -99,9 +109,3 @@ class ExchangePresenter @Inject constructor(
     }
 }
 
-/**
- * Enum trade operation
- */
-enum class ExchangeEvent {
-    BUY, SELL
-}

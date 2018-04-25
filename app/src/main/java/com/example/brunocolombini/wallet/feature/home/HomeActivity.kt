@@ -18,6 +18,7 @@ import com.example.brunocolombini.wallet.R
 import com.example.brunocolombini.wallet.feature.exchange.ExchangeFragment
 import com.example.brunocolombini.wallet.feature.extract.ExtractActivity
 import com.example.brunocolombini.wallet.util.delivery.BalanceEventType
+import com.example.brunocolombini.wallet.util.enums.BalanceEventType
 import dagger.android.support.DaggerAppCompatActivity
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar_main.*
@@ -53,8 +54,6 @@ class HomeActivity : DaggerAppCompatActivity(), NavigationView.OnNavigationItemS
         }
     }
 
-    override fun getContext(): Context = this
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -87,17 +86,17 @@ class HomeActivity : DaggerAppCompatActivity(), NavigationView.OnNavigationItemS
         }
     }
 
+    override fun onStop() {
+        super.onStop()
+        presenter.onDestroy()
+    }
+
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.extract -> {
                 startActivity(ExtractActivity.getCallingIntent(this))
             }
             R.id.log_out -> {
-                presenter.onDestroy()
-                val fm = supportFragmentManager
-                for (i in 0 until fm.backStackEntryCount) {
-                    fm.popBackStack()
-                }
                 finish()
             }
         }
@@ -155,23 +154,18 @@ class PagerAdapter(
 
     override fun getItem(position: Int): Fragment {
         return when (position) {
-            0 -> ExchangeFragment.newInstance(type = MarketType.BTC, user = user)
-            else -> ExchangeFragment.newInstance(type = MarketType.BRITAS, user = user)
+            0 -> ExchangeFragment.newInstance(type = BalanceEventType.BTC, user = user)
+            else -> ExchangeFragment.newInstance(type = BalanceEventType.BRITAS, user = user)
         }
     }
 
     override fun getPageTitle(position: Int): CharSequence {
         val title = when (position) {
-            0 -> MarketType.BTC.type
-            else -> MarketType.BRITAS.type
+            0 -> BalanceEventType.BTC.type
+            else -> BalanceEventType.BRITAS.type
         }
         return context.getString(title)
     }
 
-    override fun getCount() = MarketType.values().size
-}
-
-enum class MarketType(val type: Int) {
-    BTC(R.string.btc),
-    BRITAS(R.string.bts)
+    override fun getCount() = BalanceEventType.values().size - 1
 }
