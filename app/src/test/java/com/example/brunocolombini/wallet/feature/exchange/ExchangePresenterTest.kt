@@ -56,8 +56,8 @@ class ExchangePresenterTest : BaseTest() {
         allCoins.add(Extract(null, userId, 10.0, "BRITAS"))
 
         `when`(userPreference.getUserId()).thenReturn(userId)
-        `when`(appDatabase.extractDao()).thenReturn(extractDAO)
-        `when`(extractDAO.getExtractById(eq(userId)).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io())).thenReturn(Single.just(allCoins))
+        //`when`(extractDAO.getExtractById(userId).observeOn(AndroidSchedulers.mainThread())).thenReturn(Single.just(allCoins))
+        //`when`(extractDAO.getExtractById(userId).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io())).thenReturn(Single.just(allCoins))
     }
 
     @Test
@@ -72,7 +72,7 @@ class ExchangePresenterTest : BaseTest() {
     @Test
     fun get_britas_price_test_success() {
         val bancoCentralModel = BancoCentralModel(listBritasPrice())
-        `when`(api.getBritasPrice()).thenReturn(Single.just(bancoCentralModel))
+        `when`(api.getBritasPrice("04-04-2018")).thenReturn(Single.just(bancoCentralModel))
         presenter.getBritasPrice()
         verify(view, times(1)).setCryptoPrice(eq(BalanceEventType.BRITAS), eq(bancoCentralModel.value[0].cotacaoCompra), eq(bancoCentralModel.value[0].cotacaoVenda))
     }

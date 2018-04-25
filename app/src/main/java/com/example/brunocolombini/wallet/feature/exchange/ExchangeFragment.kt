@@ -32,11 +32,19 @@ class ExchangeFragment : DaggerFragment(), ExchangeContract.View {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         fragmentView = inflater.inflate(R.layout.fragment_exchange, container, false)
-        presenter.onAttachView()
 
         userInformation = arguments.getSerializable(USER_ARGS) as UserWallet
         marketType = arguments.getSerializable(MARKET_TYPE) as BalanceEventType
 
+        presenter.onAttachView()
+        presenter.updateBalance()
+        presenter.setCoinPrice(marketType)
+        setButtonsListeners()
+
+        return fragmentView
+    }
+
+    private fun setButtonsListeners() {
         fragmentView.button_buy.setOnClickListener {
             val buyTotal = removeString(buy_total.editText!!.text.toString())
             val buyQuantity = removeString(buy_quantity.editText!!.text.toString())
@@ -47,7 +55,6 @@ class ExchangeFragment : DaggerFragment(), ExchangeContract.View {
             val newBalanceCrypto = cryptoBalance + buyQuantity
 
             presenter.updateBalanceAfterExchangeEvent(ExchangeEvent.BUY, marketType, newBalanceFiat, newBalanceCrypto, buyTotal, buyQuantity)
-
 
         }
 
@@ -62,13 +69,6 @@ class ExchangeFragment : DaggerFragment(), ExchangeContract.View {
 
             presenter.updateBalanceAfterExchangeEvent(ExchangeEvent.SELL, marketType, newBalanceFiat, newBalanceCrypto, sellTotal, sellQuantity)
         }
-
-        presenter.updateBalance()
-        when (marketType) {
-            BalanceEventType.BTC -> presenter.getBtcPrice()
-            BalanceEventType.BRITAS -> presenter.getBritasPrice()
-        }
-        return fragmentView
     }
 
     override fun onStop() {
@@ -76,7 +76,7 @@ class ExchangeFragment : DaggerFragment(), ExchangeContract.View {
         presenter.onDestroy()
     }
 
-    override fun alertDontHaveBalance() {
+    override fun alertNotHaveBalance() {
         val snackbar = Snackbar.make(fragmentView.button_buy, "Saldo insuficiente", Snackbar.LENGTH_SHORT)
         snackbar.setAction("Entendi", { snackbar.dismiss() })
         snackbar.show()
@@ -91,7 +91,6 @@ class ExchangeFragment : DaggerFragment(), ExchangeContract.View {
         val sellQuantity = fragmentView.sell_quantity.editText!!
         val sellPrice = fragmentView.sell_price.editText!!.text.toString().toDouble()
         val sellTotal = fragmentView.sell_total.editText!!
-
 
         buyQuantity.addTextChangedListener(TextWatcherCryptoInput(buyQuantity, buyPrice, buyTotal, button_buy))
         sellQuantity.addTextChangedListener(TextWatcherCryptoInput(sellQuantity, sellPrice, sellTotal, button_sell))

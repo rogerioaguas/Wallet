@@ -25,6 +25,7 @@ class ExchangePresenter @Inject constructor(
         val view: ExchangeContract.View
 ) : ExchangeContract.Presenter {
 
+
     private val compositeDisposable = CompositeDisposable()
 
     override fun onAttachView() {
@@ -39,8 +40,15 @@ class ExchangePresenter @Inject constructor(
         compositeDisposable.clear()
     }
 
-    override fun getBritasPrice() {
-        api.getBritasPrice()
+    override fun setCoinPrice(marketType: BalanceEventType) {
+        when (marketType) {
+            BalanceEventType.BTC -> getBtcPrice()
+            else -> getBritasPrice()
+        }
+    }
+
+    private fun getBritasPrice() {
+        api.getBritasPrice("05-25-2018")
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({ ticker: BancoCentralModel ->
                     this.view.setCryptoPrice(BalanceEventType.BRITAS, ticker.value[0].cotacaoCompra, ticker.value[0].cotacaoVenda)
@@ -54,7 +62,7 @@ class ExchangePresenter @Inject constructor(
     @return void
     @throw null
      */
-    override fun getBtcPrice() {
+    private fun getBtcPrice() {
         api.getBtcPrice()
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe { ticker: MercadoBitcoinModel ->
@@ -99,7 +107,7 @@ class ExchangePresenter @Inject constructor(
                                                  quantity: Double) {
 
         if (newBalanceFiat < 0 || newBalanceCrypto < 0) {
-            view.alertDontHaveBalance()
+            view.alertNotHaveBalance()
             return
         }
 
