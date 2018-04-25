@@ -92,16 +92,40 @@ class ExchangePresenter @Inject constructor(
         }
     }
 
-
-    override fun updateExtract(amount: Double, eventType: String, exchangeEvent: ExchangeEvent) {
-        val extract = if (exchangeEvent == ExchangeEvent.BUY) {
-            Extract(null, userPreference.getUserId(), amount * 1, eventType)
-        } else {
-            Extract(null, userPreference.getUserId(), amount * -1, eventType)
+    override fun updateBalanceAfterExchangeEvent(exchangeEvent: ExchangeEvent,
+                                                 marketType: BalanceEventType,
+                                                 newBalanceFiat: Double,
+                                                 newBalanceCrypto: Double,
+                                                 total: Double,
+                                                 quantity: Double) {
+        if (newBalanceFiat < 0 || newBalanceCrypto < 0) {
+            view.alertDontHaveBalance()
+            return
         }
+
+        changeEventDeliverySubject.onNext(UpdateBalanceEvent(BalanceEventType.FIAT, newBalanceFiat))
+        changeEventDeliverySubject.onNext(UpdateBalanceEvent(marketType, newBalanceCrypto))
+
+        if (exchangeEvent == ExchangeEvent.BUY) {
+            updateExtract(
+                    Extract(null, userPreference.getUserId(), total * -1, view.getStringByResourceId(BalanceEventType.FIAT.type)),
+                    Extract(null, userPreference.getUserId(), quantity * 1, view.getStringByResourceId(marketType.type)))
+
+        } else {
+            updateExtract(
+                    Extract(null, userPreference.getUserId(), total * 1, view.getStringByResourceId(BalanceEventType.FIAT.type)),
+                    Extract(null, userPreference.getUserId(), quantity * -1, view.getStringByResourceId(marketType.type)))
+
+        }
+
+    }
+
+
+    private fun updateExtract(vararg extract: Extract) {
+
         compositeDisposable.add(
                 Completable
-                        .fromAction { appDatabase.extractDao().insertAll(extract) }
+                        .fromAction { appDatabase.extractDao().insertAll(*extract) }
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe({ view.extractUpdateWithSuccess() }))

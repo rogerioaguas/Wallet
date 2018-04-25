@@ -1,7 +1,7 @@
 package com.example.brunocolombini.wallet.feature.exchange
 
 import com.example.brunocolombini.wallet.BaseContract
-import com.example.brunocolombini.wallet.feature.home.MarketType
+import com.example.brunocolombini.wallet.DAO.user.Extract
 import com.example.brunocolombini.wallet.util.enums.BalanceEventType
 import com.example.brunocolombini.wallet.util.enums.ExchangeEvent
 
@@ -19,7 +19,11 @@ interface ExchangeContract {
         fun getBritasPrice()
         fun getBtcPrice()
         fun updateBalance()
-        fun updateExtract(amount: Double, eventType: String, exchangeEvent: ExchangeEvent)
-        fun updateBalanceAfterExchangeEvent(sell: ExchangeEvent, marketType: MarketType, newBalanceFiat: Double, newBalanceCrypto: Double)
+        fun updateBalanceAfterExchangeEvent(exchangeEvent: ExchangeEvent,
+                                            marketType: BalanceEventType,
+                                            newBalanceFiat: Double,
+                                            newBalanceCrypto: Double,
+                                            total: Double,
+                                            quantity: Double)
     }
 }

@@ -33,14 +33,14 @@ class ExchangeFragment : DaggerFragment(), ExchangeContract.View {
 
     lateinit var userInformation: UserWallet
 
-    lateinit var marketType: MarketType
+    lateinit var marketType: BalanceEventType
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         fragmentView = inflater.inflate(R.layout.fragment_exchange, container, false)
         presenter.onAttachView()
 
         userInformation = arguments.getSerializable(USER_ARGS) as UserWallet
-        marketType = arguments.getSerializable(MARKET_TYPE) as MarketType
+        marketType = arguments.getSerializable(MARKET_TYPE) as BalanceEventType
 
         fragmentView.button_buy.setOnClickListener {
             val buyTotal = removeString(buy_total.editText!!.text.toString())
@@ -51,25 +51,8 @@ class ExchangeFragment : DaggerFragment(), ExchangeContract.View {
             val newBalanceFiat = fiatBalance - buyTotal
             val newBalanceCrypto = cryptoBalance + buyQuantity
 
-            presenter.updateBalanceAfterExchangeEvent(ExchangeEvent.SELL, marketType, newBalanceFiat, newBalanceCrypto)
+            presenter.updateBalanceAfterExchangeEvent(ExchangeEvent.BUY, marketType, newBalanceFiat, newBalanceCrypto,buyTotal,buyQuantity)
 
-            if (newBalanceFiat >= 0) {
-
-                changeEventDeliverySubject.onNext(UpdateBalanceEvent(BalanceEventType.FIAT, newBalanceFiat))
-                presenter.updateExtract(buyTotal, resources.getString(BalanceEventType.FIAT.type), ExchangeEvent.SELL)
-                when (marketType) {
-                    MarketType.BTC -> {
-                        changeEventDeliverySubject.onNext(UpdateBalanceEvent(BalanceEventType.BTC, newBalanceCrypto))
-                        presenter.updateExtract(buyQuantity, resources.getString(BalanceEventType.BTC.type), ExchangeEvent.BUY)
-                    }
-                    MarketType.BRITAS -> {
-                        changeEventDeliverySubject.onNext(UpdateBalanceEvent(BalanceEventType.BRITAS, newBalanceCrypto))
-                        presenter.updateExtract(buyQuantity, resources.getString(BalanceEventType.BRITAS.type), ExchangeEvent.BUY)
-                    }
-                }
-            } else {
-                alertDontHaveBalance()
-            }
 
         }
 
@@ -172,7 +155,7 @@ class ExchangeFragment : DaggerFragment(), ExchangeContract.View {
         private const val MARKET_TYPE = "MARKET_TYPE"
         private const val USER_ARGS = "USER_ARGS"
 
-        fun newInstance(type: MarketType, user: UserWallet): ExchangeFragment {
+        fun newInstance(type: BalanceEventType, user: UserWallet): ExchangeFragment {
             val fragment = ExchangeFragment()
 
             fragment.arguments = Bundle().apply {
