@@ -4,9 +4,6 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.support.design.widget.NavigationView
-import android.support.v4.app.Fragment
-import android.support.v4.app.FragmentManager
-import android.support.v4.app.FragmentStatePagerAdapter
 import android.support.v4.view.GravityCompat
 import android.support.v7.app.ActionBarDrawerToggle
 import android.view.MenuItem
@@ -15,9 +12,7 @@ import android.widget.TextView
 import com.example.brunocolombini.wallet.DAO.user.Extract
 import com.example.brunocolombini.wallet.DAO.user.UserWallet
 import com.example.brunocolombini.wallet.R
-import com.example.brunocolombini.wallet.feature.exchange.ExchangeFragment
 import com.example.brunocolombini.wallet.feature.extract.ExtractActivity
-import com.example.brunocolombini.wallet.util.delivery.BalanceEventType
 import com.example.brunocolombini.wallet.util.enums.BalanceEventType
 import dagger.android.support.DaggerAppCompatActivity
 import kotlinx.android.synthetic.main.activity_main.*
@@ -25,7 +20,6 @@ import kotlinx.android.synthetic.main.app_bar_main.*
 import javax.inject.Inject
 
 class HomeActivity : DaggerAppCompatActivity(), NavigationView.OnNavigationItemSelectedListener, HomeContract.View {
-
 
     @Inject
     lateinit var presenter: HomeContract.Presenter
@@ -145,27 +139,4 @@ class HomeActivity : DaggerAppCompatActivity(), NavigationView.OnNavigationItemS
 }
 
 
-class PagerAdapter(
-        private val context: Context,
-        private val user: UserWallet,
-        fragment: FragmentManager
-) : FragmentStatePagerAdapter(fragment) {
 
-
-    override fun getItem(position: Int): Fragment {
-        return when (position) {
-            0 -> ExchangeFragment.newInstance(type = BalanceEventType.BTC, user = user)
-            else -> ExchangeFragment.newInstance(type = BalanceEventType.BRITAS, user = user)
-        }
-    }
-
-    override fun getPageTitle(position: Int): CharSequence {
-        val title = when (position) {
-            0 -> BalanceEventType.BTC.type
-            else -> BalanceEventType.BRITAS.type
-        }
-        return context.getString(title)
-    }
-
-    override fun getCount() = BalanceEventType.values().size - 1
-}

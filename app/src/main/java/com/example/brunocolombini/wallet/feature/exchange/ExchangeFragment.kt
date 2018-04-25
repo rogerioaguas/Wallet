@@ -7,12 +7,10 @@ import android.view.View
 import android.view.ViewGroup
 import com.example.brunocolombini.wallet.DAO.user.UserWallet
 import com.example.brunocolombini.wallet.R
-import com.example.brunocolombini.wallet.util.enums.BalanceEventType
-import com.example.brunocolombini.wallet.feature.home.MarketType
 import com.example.brunocolombini.wallet.util.TextWatcherCryptoInput
 import com.example.brunocolombini.wallet.util.TransformToNumber.removeString
-import com.example.brunocolombini.wallet.util.delivery.BalanceEventType
 import com.example.brunocolombini.wallet.util.delivery.UpdateBalanceEvent
+import com.example.brunocolombini.wallet.util.enums.BalanceEventType
 import com.example.brunocolombini.wallet.util.enums.ExchangeEvent
 import dagger.android.support.DaggerFragment
 import io.reactivex.subjects.PublishSubject
@@ -25,9 +23,6 @@ class ExchangeFragment : DaggerFragment(), ExchangeContract.View {
 
     @Inject
     lateinit var presenter: ExchangeContract.Presenter
-
-    @Inject
-    lateinit var changeEventDeliverySubject: PublishSubject<UpdateBalanceEvent>
 
     private lateinit var fragmentView: View
 
@@ -51,7 +46,7 @@ class ExchangeFragment : DaggerFragment(), ExchangeContract.View {
             val newBalanceFiat = fiatBalance - buyTotal
             val newBalanceCrypto = cryptoBalance + buyQuantity
 
-            presenter.updateBalanceAfterExchangeEvent(ExchangeEvent.BUY, marketType, newBalanceFiat, newBalanceCrypto,buyTotal,buyQuantity)
+            presenter.updateBalanceAfterExchangeEvent(ExchangeEvent.BUY, marketType, newBalanceFiat, newBalanceCrypto, buyTotal, buyQuantity)
 
 
         }
@@ -65,28 +60,13 @@ class ExchangeFragment : DaggerFragment(), ExchangeContract.View {
             val newBalanceFiat = fiatBalance + sellTotal
             val newBalanceCrypto = cryptoBalance - sellQuantity
 
-            if (newBalanceCrypto >= 0) {
-                changeEventDeliverySubject.onNext(UpdateBalanceEvent(BalanceEventType.FIAT, newBalanceFiat))
-                presenter.updateExtract(sellTotal, resources.getString(BalanceEventType.FIAT.type), ExchangeEvent.BUY)
-                when (marketType) {
-                    MarketType.BTC -> {
-                        changeEventDeliverySubject.onNext(UpdateBalanceEvent(BalanceEventType.BTC, newBalanceCrypto))
-                        presenter.updateExtract(sellQuantity, resources.getString(BalanceEventType.BTC.type), ExchangeEvent.SELL)
-                    }
-                    MarketType.BRITAS -> {
-                        changeEventDeliverySubject.onNext(UpdateBalanceEvent(BalanceEventType.BRITAS, newBalanceCrypto))
-                        presenter.updateExtract(sellQuantity, resources.getString(BalanceEventType.BRITAS.type), ExchangeEvent.SELL)
-                    }
-                }
-            } else {
-                alertDontHaveBalance()
-            }
+            presenter.updateBalanceAfterExchangeEvent(ExchangeEvent.SELL, marketType, newBalanceFiat, newBalanceCrypto, sellTotal, sellQuantity)
         }
 
         presenter.updateBalance()
         when (marketType) {
-            MarketType.BTC -> presenter.getBtcPrice()
-            MarketType.BRITAS -> presenter.getBritasPrice()
+            BalanceEventType.BTC -> presenter.getBtcPrice()
+            BalanceEventType.BRITAS -> presenter.getBritasPrice()
         }
         return fragmentView
     }
@@ -123,12 +103,12 @@ class ExchangeFragment : DaggerFragment(), ExchangeContract.View {
                 fragmentView.fiat_balance.text = String.format(resources.getString(R.string.balance_fiat), value)
             }
             BalanceEventType.BTC -> {
-                if (marketType == MarketType.BTC) {
+                if (marketType == BalanceEventType.BTC) {
                     fragmentView.crypto_balance.text = String.format(resources.getString(R.string.balance_btc), value)
                 }
             }
             BalanceEventType.BRITAS -> {
-                if (marketType == MarketType.BRITAS) {
+                if (marketType == BalanceEventType.BRITAS) {
                     fragmentView.crypto_balance.text = String.format(resources.getString(R.string.balance_britas), value)
                 }
             }
