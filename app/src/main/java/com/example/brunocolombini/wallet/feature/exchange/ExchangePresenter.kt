@@ -58,7 +58,7 @@ class ExchangePresenter @Inject constructor(
     @throw null
      */
     private fun getBritasPrice() {
-        api.getBritasPrice("05-25-2018")
+        api.getBritasPrice()
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({ ticker: BancoCentralModel ->
                     this.view.setCryptoPrice(BalanceEventType.BRITAS, ticker.value[0].cotacaoCompra, ticker.value[0].cotacaoVenda)
