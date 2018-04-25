@@ -7,7 +7,6 @@ import com.example.brunocolombini.wallet.R
 import com.example.brunocolombini.wallet.data.Api
 import com.example.brunocolombini.wallet.data.BancoCentralModel
 import com.example.brunocolombini.wallet.data.MercadoBitcoinModel
-import com.example.brunocolombini.wallet.util.delivery.BalanceEventType
 import com.example.brunocolombini.wallet.util.delivery.UpdateBalanceEvent
 import com.example.brunocolombini.wallet.util.enums.BalanceEventType
 import com.example.brunocolombini.wallet.util.enums.ExchangeEvent
@@ -50,13 +49,13 @@ class ExchangePresenter @Inject constructor(
 
 
     /**
-    The method call the api for make request to get the coin value.
+    The method call the api for make request to get the coin value from mercado bitcoin.
     @param null
     @return void
     @throw null
      */
     override fun getBtcPrice() {
-        api.getBtcPrice("https://www.mercadobitcoin.net/api/BTC/ticker/")
+        api.getBtcPrice()
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe { ticker: MercadoBitcoinModel ->
                     this.view.setCryptoPrice(BalanceEventType.BTC, ticker.ticker.buy.toDouble(), ticker.ticker.sell.toDouble())
@@ -98,6 +97,7 @@ class ExchangePresenter @Inject constructor(
                                                  newBalanceCrypto: Double,
                                                  total: Double,
                                                  quantity: Double) {
+
         if (newBalanceFiat < 0 || newBalanceCrypto < 0) {
             view.alertDontHaveBalance()
             return
@@ -122,7 +122,6 @@ class ExchangePresenter @Inject constructor(
 
 
     private fun updateExtract(vararg extract: Extract) {
-
         compositeDisposable.add(
                 Completable
                         .fromAction { appDatabase.extractDao().insertAll(*extract) }

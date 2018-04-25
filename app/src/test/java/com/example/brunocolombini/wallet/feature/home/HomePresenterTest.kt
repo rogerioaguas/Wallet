@@ -1,23 +1,19 @@
 package com.example.brunocolombini.wallet.feature.home
 
-import android.content.Context
 import com.example.brunocolombini.wallet.BaseTest
 import com.example.brunocolombini.wallet.DAO.AppDatabase
 import com.example.brunocolombini.wallet.DAO.infra.UserPreference
-import com.example.brunocolombini.wallet.util.delivery.BalanceEventType
 import com.example.brunocolombini.wallet.util.delivery.UpdateBalanceEvent
-import io.reactivex.Observable
-import io.reactivex.android.plugins.RxAndroidPlugins
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.plugins.RxJavaPlugins
-import io.reactivex.schedulers.Schedulers
-import io.reactivex.subjects.PublishSubject
-import org.junit.Before
-import org.junit.Test
-import org.mockito.*
-import org.mockito.Mockito.*
+import com.example.brunocolombini.wallet.util.enums.BalanceEventType
 import com.nhaarman.mockito_kotlin.eq
-import java.util.concurrent.TimeUnit
+import io.reactivex.Observable
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.subjects.PublishSubject
+import org.junit.Test
+import org.mockito.InjectMocks
+import org.mockito.Mock
+import org.mockito.Mockito.*
+import org.mockito.Spy
 
 
 class HomePresenterTest : BaseTest(){

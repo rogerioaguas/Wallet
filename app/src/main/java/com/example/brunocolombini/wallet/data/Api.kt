@@ -10,7 +10,7 @@ interface Api {
     fun getBritasPrice(): Single<BancoCentralModel>
 
     @GET
-    fun getBtcPrice(@Url url: String): Single<MercadoBitcoinModel>
+    fun getBtcPrice(@Url url: String = "https://www.mercadobitcoin.net/api/BTC/ticker/"): Single<MercadoBitcoinModel>
 
 
 }
