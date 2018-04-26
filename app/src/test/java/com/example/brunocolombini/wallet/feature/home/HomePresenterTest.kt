@@ -19,7 +19,7 @@ import org.mockito.Mockito.*
 import org.mockito.Spy
 
 
-class HomePresenterTest : BaseTest(){
+class HomePresenterTest : BaseTest() {
 
     @InjectMocks
     lateinit var presenter: HomePresenter
@@ -50,7 +50,8 @@ class HomePresenterTest : BaseTest(){
     }
 
     @Test
-    fun on_update_user_information_success(){
+    fun on_update_user_information_success() {
+        val userId = 1L
         val allCoins: ArrayList<Extract> = ArrayList()
         allCoins.add(Extract(null, userId, 10.0, "FIAT"))
         allCoins.add(Extract(null, userId, 10.0, "BITCOIN"))
@@ -63,7 +64,6 @@ class HomePresenterTest : BaseTest(){
         verify(view).updateUserInformation(eq(allCoins))
 
     }
-
 
 
 }
