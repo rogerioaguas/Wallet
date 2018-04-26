@@ -1,5 +1,6 @@
 package com.example.brunocolombini.wallet.feature.login
 
+import com.example.brunocolombini.wallet.BaseTest
 import com.example.brunocolombini.wallet.DAO.AppDatabase
 import com.example.brunocolombini.wallet.DAO.infra.UserPreference
 import com.example.brunocolombini.wallet.DAO.user.UserDao
@@ -11,6 +12,7 @@ import io.reactivex.Single
 import io.reactivex.android.plugins.RxAndroidPlugins
 import io.reactivex.plugins.RxJavaPlugins
 import io.reactivex.schedulers.Schedulers
+import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
 import org.mockito.ArgumentMatchers
@@ -20,7 +22,7 @@ import org.mockito.Mockito.`when`
 import org.mockito.MockitoAnnotations
 
 
-class LoginPresenterTest {
+class LoginPresenterTest :BaseTest(){
 
 
     @InjectMocks
@@ -38,16 +40,6 @@ class LoginPresenterTest {
     @Mock
     lateinit var userDao: UserDao
 
-    @Before
-    fun setUp() {
-        MockitoAnnotations.initMocks(this)
-        RxJavaPlugins.setIoSchedulerHandler { Schedulers.trampoline() }
-        RxJavaPlugins.setComputationSchedulerHandler { Schedulers.trampoline() }
-        RxJavaPlugins.setNewThreadSchedulerHandler { Schedulers.trampoline() }
-        RxAndroidPlugins.setInitMainThreadSchedulerHandler { Schedulers.trampoline() }
-        `when`(userPreference.getUserId()).thenReturn(1)
-        `when`(userPreference.isLogged()).thenReturn(true)
-    }
 
     @Test
     fun user_exist_in_local_database() {
@@ -69,7 +61,9 @@ class LoginPresenterTest {
     }
 
     @Test
-    fun get_user_by_id_success(){
+    fun get_user_by_id_success() {
+        `when`(userPreference.getUserId()).thenReturn(1)
+        `when`(userPreference.isLogged()).thenReturn(true)
         val user_expect = UserWallet(1, "ABC", "7C4A8D09CA3762AF61E59520943DC26494F8941B")
         `when`(appDataBase.userDao()).thenReturn(userDao)
         `when`(appDataBase.userDao().findById(userPreference.getUserId())).thenReturn(Single.just(user_expect))
@@ -78,12 +72,20 @@ class LoginPresenterTest {
     }
 
     @Test
-    fun get_user_by_id_error(){
+    fun get_user_by_id_error() {
+        `when`(userPreference.getUserId()).thenReturn(1)
+        `when`(userPreference.isLogged()).thenReturn(true)
         val user_expect = UserWallet(1, "ABC", "7C4A8D09CA3762AF61E59520943DC26494F8941B")
         `when`(appDataBase.userDao()).thenReturn(userDao)
         `when`(appDataBase.userDao().findById(userPreference.getUserId())).thenReturn(Single.error(Throwable("ERROR")))
         presenter.onAttachView()
         verify(view, times(1)).callUserNotExist()
+    }
+
+    @Test
+    fun on_attach_is_not_logged() {
+        presenter.onAttachView()
+        Assert.assertFalse(userPreference.isLogged())
     }
 
 }

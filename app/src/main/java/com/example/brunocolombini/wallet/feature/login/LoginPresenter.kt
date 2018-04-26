@@ -48,7 +48,7 @@ open class LoginPresenter @Inject constructor(
         )
     }
 
-    fun doActionLogin(user: UserWallet) {
+    private fun doActionLogin(user: UserWallet) {
         if (user.id != null) {
             view.doLogin(user)
         } else {

@@ -57,4 +57,18 @@ class CreatePresenterTest :BaseTest() {
         verify(view, Mockito.times(1)).errorAlert()
 
     }
+
+    @Test
+    fun save_user_nothing_username_field() {
+        presenter.saveUser("", "123456")
+        verify(view, Mockito.times(1)).errorAlert()
+
+    }
+
+    @Test
+    fun save_user_nothing_password_field() {
+        presenter.saveUser("ABC", "")
+        verify(view, Mockito.times(1)).errorAlert()
+
+    }
 }
