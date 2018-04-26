@@ -31,11 +31,10 @@ class CreatePresenterTest :BaseTest() {
     lateinit var extractDao: ExtractDao
 
     @Test
-    fun save_user_ok() {
+    fun save_user_success() {
         val user = UserWallet(1, "ABC", "7C4A8D09CA3762AF61E59520943DC26494F8941B")
         `when`(appDataBase.userDao()).thenReturn(userDao)
         `when`(appDataBase.extractDao()).thenReturn(extractDao)
-
         `when`(appDataBase.userDao().findByUser(any(), any())).thenReturn(Single.just(user))
 
         presenter.saveUser("ABC", "123456")
@@ -44,7 +43,31 @@ class CreatePresenterTest :BaseTest() {
 
     @Test
     fun save_user_error() {
+        `when`(appDataBase.userDao()).thenReturn(userDao)
+        `when`(appDataBase.extractDao()).thenReturn(extractDao)
+        `when`(appDataBase.userDao().findByUser(any(), any())).thenReturn(Single.error(Throwable("Error")))
+
+        presenter.saveUser("ABC", "123456")
+        verify(view, times(1)).errorAlert()
+    }
+
+    @Test
+    fun save_user_nothing_field() {
         presenter.saveUser("", "")
+        verify(view, Mockito.times(1)).errorAlert()
+
+    }
+
+    @Test
+    fun save_user_nothing_username_field() {
+        presenter.saveUser("", "123456")
+        verify(view, Mockito.times(1)).errorAlert()
+
+    }
+
+    @Test
+    fun save_user_nothing_password_field() {
+        presenter.saveUser("ABC", "")
         verify(view, Mockito.times(1)).errorAlert()
 
     }

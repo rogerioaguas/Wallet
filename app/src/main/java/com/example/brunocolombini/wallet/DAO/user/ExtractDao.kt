@@ -13,7 +13,7 @@ interface ExtractDao {
     fun getExtractById(userId: Long): Single<List<Extract>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertAll(vararg users: Extract)
+    fun insertAll(vararg extract: Extract)
 
     @Delete
     fun delete(user: UserWallet)
