@@ -45,15 +45,18 @@ class LoginPresenterTest {
         RxJavaPlugins.setComputationSchedulerHandler { Schedulers.trampoline() }
         RxJavaPlugins.setNewThreadSchedulerHandler { Schedulers.trampoline() }
         RxAndroidPlugins.setInitMainThreadSchedulerHandler { Schedulers.trampoline() }
+        `when`(userPreference.getUserId()).thenReturn(1)
+        `when`(userPreference.isLogged()).thenReturn(true)
     }
 
     @Test
     fun user_exist_in_local_database() {
         val user_expect = UserWallet(1, "ABC", "7C4A8D09CA3762AF61E59520943DC26494F8941B")
-
         `when`(appDataBase.userDao()).thenReturn(userDao)
         `when`(appDataBase.userDao().findByUser(ArgumentMatchers.anyString(), ArgumentMatchers.anyString())).thenReturn(Single.just(UserWallet(1, "ABC", "7C4A8D09CA3762AF61E59520943DC26494F8941B")))
         presenter.checkUserExist("ABC@ABC.com", "123456")
+        verify(userPreference).saveUserId(eq(user_expect.id!!))
+        verify(userPreference).saveUserName(eq(user_expect.username))
         verify(view, times(1)).doLogin(eq(user_expect))
     }
 
@@ -62,6 +65,24 @@ class LoginPresenterTest {
         `when`(appDataBase.userDao()).thenReturn(userDao)
         `when`(appDataBase.userDao().findByUser(ArgumentMatchers.anyString(), ArgumentMatchers.anyString())).thenReturn(Single.error(Throwable("error")))
         presenter.checkUserExist("ABC@ABC.com", "123456")
+        verify(view, times(1)).callUserNotExist()
+    }
+
+    @Test
+    fun get_user_by_id_success(){
+        val user_expect = UserWallet(1, "ABC", "7C4A8D09CA3762AF61E59520943DC26494F8941B")
+        `when`(appDataBase.userDao()).thenReturn(userDao)
+        `when`(appDataBase.userDao().findById(userPreference.getUserId())).thenReturn(Single.just(user_expect))
+        presenter.onAttachView()
+        verify(view, times(1)).doLogin(eq(user_expect))
+    }
+
+    @Test
+    fun get_user_by_id_error(){
+        val user_expect = UserWallet(1, "ABC", "7C4A8D09CA3762AF61E59520943DC26494F8941B")
+        `when`(appDataBase.userDao()).thenReturn(userDao)
+        `when`(appDataBase.userDao().findById(userPreference.getUserId())).thenReturn(Single.error(Throwable("ERROR")))
+        presenter.onAttachView()
         verify(view, times(1)).callUserNotExist()
     }
 
