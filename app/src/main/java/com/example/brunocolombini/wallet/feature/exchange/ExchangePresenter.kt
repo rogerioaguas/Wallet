@@ -90,8 +90,8 @@ class ExchangePresenter @Inject constructor(
         compositeDisposable.add(
                 appDatabase.extractDao()
                         .getGroupExtractById(userPreference.getUserId())
-                        .observeOn(AndroidSchedulers.mainThread())
                         .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
                         .subscribe({ t: List<Extract> ->
                             updateBalanceView(t)
                         }))
