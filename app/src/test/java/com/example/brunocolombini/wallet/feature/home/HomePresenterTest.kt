@@ -12,6 +12,7 @@ import io.reactivex.Observable
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.subjects.PublishSubject
+import org.junit.Assert
 import org.junit.Test
 import org.mockito.InjectMocks
 import org.mockito.Mock
@@ -47,6 +48,13 @@ class HomePresenterTest : BaseTest() {
         presenter.onAttachView()
         verify(view, times(1)).updateBalance(eq(BalanceEventType.FIAT), eq(10.0))
 
+    }
+
+    @Test
+    fun on_destroy_test(){
+        presenter.onDestroy()
+        verify(userPreference).clear()
+        Assert.assertFalse(userPreference.isLogged())
     }
 
     @Test
