@@ -52,6 +52,8 @@
             android:layout_height="wrap_content"
             android:hint="@string/user"
             android:textColor="@color/concrete"
+            android:inputType="text"
+            android:maxLines="1"
             android:textColorHint="@color/wetAsphalt" />
     </android.support.design.widget.TextInputLayout>
 
@@ -75,6 +77,7 @@
             android:layout_height="wrap_content"
             android:hint="@string/password"
             android:inputType="textPassword"
+            android:maxLines="1"
             android:textColor="@color/concrete"
             android:textColorHint="@color/wetAsphalt" />
     </android.support.design.widget.TextInputLayout>

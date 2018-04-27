@@ -80,9 +80,9 @@ class HomeActivity : DaggerAppCompatActivity(), NavigationView.OnNavigationItemS
         }
     }
 
-    override fun onStop() {
-        super.onStop()
+    override fun onDestroy() {
         presenter.onDestroy()
+        super.onDestroy()
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {

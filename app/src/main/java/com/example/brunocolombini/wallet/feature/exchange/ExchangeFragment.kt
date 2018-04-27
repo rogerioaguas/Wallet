@@ -36,12 +36,16 @@ class ExchangeFragment : DaggerFragment(), ExchangeContract.View {
         userInformation = arguments.getSerializable(USER_ARGS) as UserWallet
         marketType = arguments.getSerializable(MARKET_TYPE) as BalanceEventType
 
-        presenter.onAttachView()
         presenter.updateBalance()
         presenter.setCoinPrice(marketType)
         setButtonsListeners()
 
         return fragmentView
+    }
+
+    override fun onStart() {
+        presenter.onAttachView()
+        super.onStart()
     }
 
     private fun setButtonsListeners() {
@@ -72,8 +76,8 @@ class ExchangeFragment : DaggerFragment(), ExchangeContract.View {
     }
 
     override fun onStop() {
-        super.onStop()
         presenter.onDestroy()
+        super.onStop()
     }
 
     override fun alertNotHaveBalance() {

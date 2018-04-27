@@ -1,6 +1,5 @@
 package com.example.brunocolombini.wallet.feature.login
 
-import android.content.Context
 import com.example.brunocolombini.wallet.DAO.AppDatabase
 import com.example.brunocolombini.wallet.DAO.infra.UserPreference
 import com.example.brunocolombini.wallet.DAO.user.UserWallet
@@ -49,11 +48,7 @@ open class LoginPresenter @Inject constructor(
     }
 
     private fun doActionLogin(user: UserWallet) {
-        if (user.id != null) {
-            view.doLogin(user)
-        } else {
-            view.callUserNotExist()
-        }
+        view.doLogin(user)
     }
 
     override fun onDestroy() {

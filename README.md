@@ -1,15 +1,15 @@
-# Wallet [![Build Status](https://travis-ci.org/bcolombini/Wallet.svg?branch=master)](https://travis-ci.org/bcolombini/Wallet) [![codecov](https://codecov.io/gh/bcolombini/Wallet/branch/master/graph/badge.svg)](https://codecov.io/gh/bcolombini/Wallet) ![version](https://img.shields.io/badge/version-1.0.0-blue.svg)
+# Wallet [![Build Status](https://travis-ci.org/bcolombini/Wallet.svg?branch=master)](https://travis-ci.org/bcolombini/Wallet) [![codecov](https://codecov.io/gh/bcolombini/Wallet/branch/master/graph/badge.svg)](https://codecov.io/gh/bcolombini/Wallet) ![version](https://img.shields.io/badge/version-1.0.1-blue.svg)
 
 
 ## Arquitetura MVP
 
 ![MVP](https://image.slidesharecdn.com/m0btwb4rkmr1zmky6qn7-signature-88edf7dc82aa3b7d1972fa299b2092c0e0a267bfc9ffffec7e62e88691139bde-poli-160118153854/95/angular-js-16-638.jpg?cb=1453131618)
 
-Utilizada no com Dagger2, RXKotlin e o framework ROOM da Google.
+Utilizada com Dagger2, RXKotlin e o framework ROOM da Google.
 
 ### Adicionar nova moeda
 
-Não há necessidade de criar novas activitys, como estou utilizando fragment, basta adicionar o endpoint para ser feita a chamda da nova moeda, alterar 2 enums no projeto e alterar o exchange fragment.
+Não há necessidade de criar novas activitys, como estou utilizando fragment, basta adicionar o endpoint para ser feita a chamda da nova moeda, adicionar o enum respectivo a sua nova cryptocurrency no projeto e alterar o exchange fragment.
  
 
 # Desafio Mobile
