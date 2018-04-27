@@ -2,5 +2,5 @@
 <lint>
     <issue id="HardcodedText" severity="error" />
     <issue id="ContentDescription" severity="ignore"/>
-    <issue id="UnusedResources" severity="warning"/>
+    <issue id="UnusedResources" severity="ignore"/>
 </lint>
