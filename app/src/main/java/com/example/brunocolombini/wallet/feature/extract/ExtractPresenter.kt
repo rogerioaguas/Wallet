@@ -15,6 +15,9 @@ class ExtractPresenter @Inject constructor(
 
     private val compositeDisposable = CompositeDisposable()
 
+    /**
+     * Method get all extract from user id
+     */
     override fun getAllExtracts() {
         compositeDisposable.add(appDatabase.extractDao()
                 .getExtractById(userPreference.getUserId())

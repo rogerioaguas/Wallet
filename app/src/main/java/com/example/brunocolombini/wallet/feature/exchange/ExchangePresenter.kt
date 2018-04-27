@@ -28,6 +28,9 @@ class ExchangePresenter @Inject constructor(
 
     private val compositeDisposable = CompositeDisposable()
 
+    /**
+     *  Subscribe the pusblish subject from rx to listing all event on change the balance
+     */
     override fun onAttachView() {
         compositeDisposable.add(changeEventDeliverySubject
                 .observeOn(AndroidSchedulers.mainThread())

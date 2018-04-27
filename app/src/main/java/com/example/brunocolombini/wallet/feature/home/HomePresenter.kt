@@ -19,6 +19,9 @@ class HomePresenter @Inject constructor(
 
     private val compositeDisposable = CompositeDisposable()
 
+    /**
+     *  Subscribe the pusblish subject from rx to listing all event on change the balance
+     */
     override fun onAttachView() {
         compositeDisposable.add(changeEventDeliverySubject
                 .observeOn(AndroidSchedulers.mainThread())
@@ -33,6 +36,9 @@ class HomePresenter @Inject constructor(
         compositeDisposable.clear()
     }
 
+    /**
+     * Method get user balance from all coins
+     */
     override fun updateUserInformation() {
         compositeDisposable.add(
                 appDatabase.extractDao()
