@@ -70,7 +70,6 @@ class LoginPresenterTest :BaseTest(){
     fun get_user_by_id_error() {
         `when`(userPreference.getUserId()).thenReturn(1)
         `when`(userPreference.isLogged()).thenReturn(true)
-        val user_expect = UserWallet(1, "ABC", "7C4A8D09CA3762AF61E59520943DC26494F8941B")
         `when`(appDataBase.userDao()).thenReturn(userDao)
         `when`(appDataBase.userDao().findById(userPreference.getUserId())).thenReturn(Single.error(Throwable("ERROR")))
         presenter.onAttachView()
