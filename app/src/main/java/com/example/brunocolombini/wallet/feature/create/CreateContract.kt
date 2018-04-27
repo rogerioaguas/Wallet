@@ -9,7 +9,6 @@ interface CreateContract {
     }
 
     interface Presenter {
-        fun onAttachView(context: Context)
         fun saveUser(name: String, password: String)
     }
 }

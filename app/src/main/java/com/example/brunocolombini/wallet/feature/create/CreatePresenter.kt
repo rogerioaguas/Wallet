@@ -22,11 +22,6 @@ open class CreatePresenter @Inject constructor(
         private val appDatabase: AppDatabase) : CreateContract.Presenter {
 
     private val mDisposable = CompositeDisposable()
-    lateinit var context: Context
-
-    override fun onAttachView(context: Context) {
-        this.context = context
-    }
 
     override fun saveUser(name: String, password: String) {
         if (checkUserFieldValidade(name, password)) {

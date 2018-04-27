@@ -8,12 +8,7 @@ import android.arch.persistence.room.PrimaryKey
 import java.util.*
 
 
-@Entity(tableName = "extract",
-        foreignKeys = arrayOf(ForeignKey(
-                entity = UserWallet::class,
-                parentColumns = arrayOf("id"),
-                childColumns = arrayOf("userId"),
-                onDelete = CASCADE)))
+@Entity(tableName = "extract")
 data class Extract(
         @PrimaryKey(autoGenerate = true) var id: Long?,
         @ColumnInfo(name = "userId") var userId: Long?,

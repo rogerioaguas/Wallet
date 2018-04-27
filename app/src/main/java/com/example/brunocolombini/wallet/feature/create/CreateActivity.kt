@@ -16,7 +16,6 @@ open class CreateActivity : DaggerAppCompatActivity(), CreateContract.View {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_create)
-        presenter.onAttachView(this)
         sign_up.setOnClickListener {
             presenter.saveUser(register_user.text.toString(), register_password.text.toString());
         }
