@@ -48,11 +48,7 @@ open class LoginPresenter @Inject constructor(
     }
 
     private fun doActionLogin(user: UserWallet) {
-        if (user.id != null) {
-            view.doLogin(user)
-        } else {
-            view.callUserNotExist()
-        }
+        view.doLogin(user)
     }
 
     override fun onDestroy() {
