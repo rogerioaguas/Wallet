@@ -7,6 +7,6 @@ class TransformToNumberTest {
 
     @Test
     fun remove_string_test() {
-        Assert.assertEquals(1000.0, TransformToNumber.removeString("R$ 1000.00"), 0.000001)
+        Assert.assertEquals(123.32, TransformToNumber.transformStringToDouble("R$ 123.32"), 0.000001)
     }
 }

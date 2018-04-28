@@ -8,12 +8,10 @@ import android.view.ViewGroup
 import com.example.brunocolombini.wallet.DAO.user.UserWallet
 import com.example.brunocolombini.wallet.R
 import com.example.brunocolombini.wallet.util.TextWatcherCryptoInput
-import com.example.brunocolombini.wallet.util.TransformToNumber.removeString
-import com.example.brunocolombini.wallet.util.delivery.UpdateBalanceEvent
+import com.example.brunocolombini.wallet.util.TransformToNumber.transformStringToDouble
 import com.example.brunocolombini.wallet.util.enums.BalanceEventType
 import com.example.brunocolombini.wallet.util.enums.ExchangeEvent
 import dagger.android.support.DaggerFragment
-import io.reactivex.subjects.PublishSubject
 import kotlinx.android.synthetic.main.fragment_exchange.*
 import kotlinx.android.synthetic.main.fragment_exchange.view.*
 import javax.inject.Inject
@@ -50,10 +48,10 @@ class ExchangeFragment : DaggerFragment(), ExchangeContract.View {
 
     private fun setButtonsListeners() {
         fragmentView.button_buy.setOnClickListener {
-            val buyTotal = removeString(buy_total.editText!!.text.toString())
-            val buyQuantity = removeString(buy_quantity.editText!!.text.toString())
-            val cryptoBalance = removeString(crypto_balance.text.toString())
-            val fiatBalance = removeString(fiat_balance.text.toString())
+            val buyTotal = buy_total.editText!!.text.toString().toDouble()
+            val buyQuantity = buy_quantity.editText!!.text.toString().toDouble()
+            val cryptoBalance = transformStringToDouble(crypto_balance.text.toString())
+            val fiatBalance = transformStringToDouble(fiat_balance.text.toString())
 
             val newBalanceFiat = fiatBalance - buyTotal
             val newBalanceCrypto = cryptoBalance + buyQuantity
@@ -63,10 +61,10 @@ class ExchangeFragment : DaggerFragment(), ExchangeContract.View {
         }
 
         fragmentView.button_sell.setOnClickListener {
-            val sellTotal = removeString(sell_total.editText!!.text.toString())
-            val sellQuantity = removeString(sell_quantity.editText!!.text.toString())
-            val cryptoBalance = removeString(crypto_balance.text.toString())
-            val fiatBalance = removeString(fiat_balance.text.toString())
+            val sellTotal = sell_total.editText!!.text.toString().toDouble()
+            val sellQuantity = sell_quantity.editText!!.text.toString().toDouble()
+            val cryptoBalance = transformStringToDouble(crypto_balance.text.toString())
+            val fiatBalance = transformStringToDouble(fiat_balance.text.toString())
 
             val newBalanceFiat = fiatBalance + sellTotal
             val newBalanceCrypto = cryptoBalance - sellQuantity
@@ -89,11 +87,11 @@ class ExchangeFragment : DaggerFragment(), ExchangeContract.View {
     private fun textInputListeners() {
 
         val buyQuantity = fragmentView.buy_quantity.editText!!
-        val buyPrice = fragmentView.buy_price.editText!!.text.toString().toDouble()
+        val buyPrice = transformStringToDouble(fragmentView.buy_price.editText!!.text.toString())
         val buyTotal = fragmentView.buy_total.editText!!
 
         val sellQuantity = fragmentView.sell_quantity.editText!!
-        val sellPrice = fragmentView.sell_price.editText!!.text.toString().toDouble()
+        val sellPrice = transformStringToDouble(fragmentView.sell_price.editText!!.text.toString())
         val sellTotal = fragmentView.sell_total.editText!!
 
         buyQuantity.addTextChangedListener(TextWatcherCryptoInput(buyQuantity, buyPrice, buyTotal, button_buy))

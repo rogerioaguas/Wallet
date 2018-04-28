@@ -1,4 +1,4 @@
-# Wallet [![Build Status](https://travis-ci.org/bcolombini/Wallet.svg?branch=master)](https://travis-ci.org/bcolombini/Wallet) [![codecov](https://codecov.io/gh/bcolombini/Wallet/branch/master/graph/badge.svg)](https://codecov.io/gh/bcolombini/Wallet) ![version](https://img.shields.io/badge/version-1.0.1-blue.svg)
+# Wallet [![Build Status](https://travis-ci.org/bcolombini/Wallet.svg?branch=master)](https://travis-ci.org/bcolombini/Wallet) [![codecov](https://codecov.io/gh/bcolombini/Wallet/branch/master/graph/badge.svg)](https://codecov.io/gh/bcolombini/Wallet) ![version](https://img.shields.io/badge/version-1.0.2-blue.svg)
 
 
 ## Arquitetura MVP

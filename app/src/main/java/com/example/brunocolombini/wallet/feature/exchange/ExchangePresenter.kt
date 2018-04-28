@@ -78,9 +78,9 @@ class ExchangePresenter @Inject constructor(
     private fun getBtcPrice() {
         api.getBtcPrice()
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe { ticker: MercadoBitcoinModel ->
+                .subscribe({ ticker: MercadoBitcoinModel ->
                     this.view.setCryptoPrice(BalanceEventType.BTC, ticker.ticker.buy.toDouble(), ticker.ticker.sell.toDouble())
-                }
+                }, {})
     }
 
     /**
