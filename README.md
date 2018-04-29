@@ -11,6 +11,25 @@ Utilizada com Dagger2, RXKotlin e o framework ROOM da Google.
 
 Não há necessidade de criar novas activitys, como estou utilizando fragment, basta adicionar o endpoint para ser feita a chamda da nova moeda, adicionar o enum respectivo a sua nova cryptocurrency no projeto e alterar o exchange fragment.
  
+### Como usar
+
+#### APK
+ - Bastar baixar a última versão da APK disponível em [Release](https://github.com/bcolombini/Wallet/releases)
+
+#### Android Studio
+ - Clone o projeto:
+``` 
+git clone https://github.com/bcolombini/Wallet/ 
+```
+ - Abra o Android Studio e importe o diretório clonado.
+ 
+Para buildar o projeto em sua maquina e rodar os testes execute o comando:
+
+_Obs.: Algum emulador precisa estar de pé_
+ ```
+ ./gradlew lint build jacocoTestReport assembleAndroidTest
+ ```
+
 
 # Desafio Mobile
 
